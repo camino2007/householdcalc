@@ -3,7 +3,7 @@ package com.rxdroid.extensecalc.view;
 /**
  * Created by robert on 22.03.16.
  */
-public interface ViewModel {
+public interface ViewPresenter {
 
    /**
      * Method that control the lifecycle of the view. It should be called in the view's

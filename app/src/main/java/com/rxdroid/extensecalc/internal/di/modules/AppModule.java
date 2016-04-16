@@ -7,6 +7,8 @@ import com.github.simonpercic.oklog3.OkLogInterceptor;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.rxdroid.data.RealmLoader;
+import com.rxdroid.domain.util.NetworkUtil;
 import com.rxdroid.extensecalc.BaseApplication;
 import com.rxdroid.extensecalc.BuildConfig;
 
@@ -42,12 +44,6 @@ public class AppModule {
     @Singleton
     Context providesApplication() {
         return mBaseApplication;
-    }
-
-    @Provides
-    @Singleton
-    Realm providesRealm() {
-        return Realm.getDefaultInstance();
     }
 
     @Provides
@@ -90,6 +86,18 @@ public class AppModule {
                 .build();
     }
 
+    @Provides
+    @Singleton
+    NetworkUtil provideNetworkUtil(Context context) {
+        return new NetworkUtil(context);
+    }
+
+    @Provides
+    @Singleton
+    RealmLoader provideRealmLoader(Context context){
+        return new RealmLoader(context);
+    }
+
 /*    @Provides
     @Singleton
     UserProvider provideUserProvider(Context context) {
@@ -98,11 +106,7 @@ public class AppModule {
         return userProvider;
     }
 
-    @Provides
-    @Singleton
-    NetworkUtil provideNetworkUtil(Context context) {
-        return new NetworkUtil(context);
-    }
+
 
     @Provides
     @Singleton

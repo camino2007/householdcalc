@@ -9,8 +9,11 @@ import com.rxdroid.extensecalc.BaseApplication;
 import com.rxdroid.extensecalc.internal.di.HasComponent;
 import com.rxdroid.extensecalc.internal.di.components.ApiComponent;
 import com.rxdroid.extensecalc.internal.di.components.AppComponent;
+import com.rxdroid.extensecalc.internal.di.components.DaggerApiComponent;
 import com.rxdroid.extensecalc.internal.di.modules.ActivityModule;
 import com.rxdroid.extensecalc.internal.di.modules.ApiModule;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by rxdroid on 4/11/16.
@@ -24,6 +27,7 @@ public abstract class BaseActivity extends AppCompatActivity implements HasCompo
         super.onCreate(savedInstanceState);
         Log.d(getTagText(), "onCreate");
         setContentView(getLayoutId());
+        ButterKnife.bind(this);
         getApplicationComponent().inject(this);
         initializeInjector();
         initializeActionBar();
@@ -36,6 +40,12 @@ public abstract class BaseActivity extends AppCompatActivity implements HasCompo
                 .activityModule(getActivityModule())
                 .apiModule(new ApiModule())
                 .build();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ButterKnife.unbind(this);
     }
 
     @Override

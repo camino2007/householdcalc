@@ -4,7 +4,7 @@ package com.rxdroid.extensecalc.internal.di.components;
 import com.rxdroid.extensecalc.internal.di.PerActivity;
 import com.rxdroid.extensecalc.internal.di.modules.ActivityModule;
 import com.rxdroid.extensecalc.internal.di.modules.ApiModule;
-import com.rxdroid.extensecalc.view.RxBaseFragment;
+import com.rxdroid.extensecalc.view.fragments.RxBaseFragment;
 
 import dagger.Component;
 

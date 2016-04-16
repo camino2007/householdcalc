@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">ExtenseCalc</string>
     <string name="action_settings">Settings</string>
+
+    <!--Error messages-->
+    <string name="error_bad_request_msg">Connection error, please try again!</string>
+    <string name="error_mail_password_not_valid">The email / password you entered is not valid</string>
+    <string name="error_not_found">Todo</string>
+    <string name="error_internal_server_msg">Internal server error, please try again!</string>
+    <string name="error_service_unavailable_msg">Service is temporary not available, please try again!</string>
+    <string name="error_time_out_msg">Time out, please try again!</string>
+    <string name="error_unknown_msg">Unknown error, please try again!</string>
+    <string name="error_offline_msg">You are not connected to the internet. Please check your connection!</string>
+    <string name="error_in_use_msg">Your phone no. or email address are already in use</string>
 </resources>

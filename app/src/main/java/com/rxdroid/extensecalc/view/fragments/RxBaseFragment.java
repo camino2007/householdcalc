@@ -1,4 +1,4 @@
-package com.rxdroid.extensecalc.view;
+package com.rxdroid.extensecalc.view.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rxdroid.extensecalc.internal.di.HasComponent;
+import com.rxdroid.extensecalc.view.ViewPresenter;
 
+import butterknife.ButterKnife;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
@@ -19,7 +21,7 @@ import rx.subscriptions.CompositeSubscription;
 public abstract class RxBaseFragment extends Fragment {
 
     private CompositeSubscription mCompositeSubscription;
-    private ViewModel mViewModel;
+    private ViewPresenter mViewPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +32,9 @@ public abstract class RxBaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mViewModel = getViewModel();
+        View view = inflater.inflate(getLayoutId(), container, false);
+        ButterKnife.bind(this, view);
+        mViewPresenter = getViewPresenter();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -38,26 +42,32 @@ public abstract class RxBaseFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         mCompositeSubscription.clear();
-        if (mViewModel != null) {
-            mViewModel.destroy();
+        if (mViewPresenter != null) {
+            mViewPresenter.destroy();
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mCompositeSubscription = new CompositeSubscription();
-        if (mViewModel != null) {
+        if (mViewPresenter != null) {
             Log.d(getTagText(), "onResume - " + getTagText());
-            mViewModel.resume();
+            mViewPresenter.resume();
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (mViewModel != null) {
-            mViewModel.pause();
+        if (mViewPresenter != null) {
+            mViewPresenter.pause();
         }
     }
 
@@ -70,11 +80,11 @@ public abstract class RxBaseFragment extends Fragment {
     }
 
     /**
-     * Represents the ViewModel for each screen. Is used here for basic calls like in onResume()
+     * Represents the ViewPresenter for each screen. Is used here for basic calls like in onResume()
      *
-     * @return ViewModel
+     * @return ViewPresenter
      */
-    public abstract ViewModel getViewModel();
+    public abstract ViewPresenter getViewPresenter();
 
     /**
      * Returns a unique view identifier for logging, usually in this way: ViewXYZ.class.getSimpleName()
@@ -82,6 +92,13 @@ public abstract class RxBaseFragment extends Fragment {
      * @return String
      */
     public abstract String getTagText();
+
+    /**
+     * Returns a unique layout resource for a fragment instance
+     *
+     * @return int
+     */
+    public abstract int getLayoutId();
 
     /**
      * Gets a component for dependency injection by its type.

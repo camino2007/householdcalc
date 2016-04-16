@@ -2,6 +2,7 @@ package com.rxdroid.extensecalc.internal.di.components;
 
 import android.content.Context;
 
+import com.rxdroid.data.RealmLoader;
 import com.rxdroid.extensecalc.view.activities.BaseActivity;
 import com.rxdroid.extensecalc.internal.di.modules.AppModule;
 
@@ -19,11 +20,13 @@ import retrofit2.Retrofit;
 public interface AppComponent {
     void inject(BaseActivity baseActivity);
 
-    Realm realm();
+    RealmLoader realmLoader();
 
     Context context();
 
     Retrofit retrofit();
+
+
 
 /*    UserProvider userProvider();
 

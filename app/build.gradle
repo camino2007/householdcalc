@@ -79,7 +79,8 @@ dependencies {
     compile appDependencies.butterknife
     compile appDependencies.oklog3
     compile appDependencies.rxlint
-    compile appDependencies.realm
+    compile appDependencies.googlePlayServiceBase
+    compile appDependencies.googlePlayServiceAds
 
     //Development
     compile developmentDependencies.leakCanary
