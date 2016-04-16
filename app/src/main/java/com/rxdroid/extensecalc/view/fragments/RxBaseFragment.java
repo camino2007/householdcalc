@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rxdroid.extensecalc.internal.di.HasComponent;
+import com.rxdroid.extensecalc.internal.di.components.ApiComponent;
 import com.rxdroid.extensecalc.view.ViewPresenter;
 
 import butterknife.ButterKnife;
@@ -34,23 +35,20 @@ public abstract class RxBaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutId(), container, false);
         ButterKnife.bind(this, view);
+        return view;
+    }
+
+    /**
+     * Take care that all calls to {@link ViewPresenter} and injected objects are made after onActivityCreated()!
+     * Otherwise the objects are null.
+     *
+     * @param savedInstanceState
+     */
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        injectComponent(getComponent(ApiComponent.class));
         mViewPresenter = getViewPresenter();
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mCompositeSubscription.clear();
-        if (mViewPresenter != null) {
-            mViewPresenter.destroy();
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @Override
@@ -69,6 +67,21 @@ public abstract class RxBaseFragment extends Fragment {
         if (mViewPresenter != null) {
             mViewPresenter.pause();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCompositeSubscription.clear();
+        if (mViewPresenter != null) {
+            mViewPresenter.destroy();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
     protected void addSubscription(Subscription subscription) {
@@ -99,6 +112,8 @@ public abstract class RxBaseFragment extends Fragment {
      * @return int
      */
     public abstract int getLayoutId();
+
+    protected abstract void injectComponent(ApiComponent apiComponent);
 
     /**
      * Gets a component for dependency injection by its type.

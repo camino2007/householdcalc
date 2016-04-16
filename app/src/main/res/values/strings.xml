@@ -12,4 +12,20 @@
     <string name="error_unknown_msg">Unknown error, please try again!</string>
     <string name="error_offline_msg">You are not connected to the internet. Please check your connection!</string>
     <string name="error_in_use_msg">Your phone no. or email address are already in use</string>
+
+    <!--Main view-->
+    <string name="main_ab_setup">Set up your account</string>
+
+    <!--Backup types-->
+    <string name="backup_not_now">Not now</string>
+    <string name="backup_drop_box">DropBox</string>
+    <string name="backup_google_drive">Google Drive</string>
+
+    <!--Setup view-->
+    <string name="setup_name_hint">Your name</string>
+    <string name="setup_btn_start">Continue</string>
+    <string name="setup_btn_add_income">Add income</string>
+    <string name="setup_btn_add_expense">Add expense</string>
+
+
 </resources>

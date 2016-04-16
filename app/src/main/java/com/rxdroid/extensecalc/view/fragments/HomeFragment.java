@@ -1,6 +1,7 @@
 package com.rxdroid.extensecalc.view.fragments;
 
 import com.rxdroid.extensecalc.R;
+import com.rxdroid.extensecalc.internal.di.components.ApiComponent;
 import com.rxdroid.extensecalc.view.ViewPresenter;
 
 /**
@@ -25,6 +26,11 @@ public class HomeFragment extends RxBaseFragment {
     @Override
     public int getLayoutId() {
         return R.layout.fragment_home;
+    }
+
+    @Override
+    protected void injectComponent(ApiComponent apiComponent) {
+        apiComponent.inject(this);
     }
 
 

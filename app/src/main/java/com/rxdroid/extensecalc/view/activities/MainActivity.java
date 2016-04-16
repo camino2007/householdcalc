@@ -11,10 +11,8 @@ import android.view.MenuItem;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
-import com.dropbox.client2.session.AppKeyPair;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.rxdroid.domain.Constants;
 import com.rxdroid.extensecalc.R;
 import com.rxdroid.extensecalc.view.fragments.HomeFragment;
 import com.rxdroid.extensecalc.view.fragments.SetupFragment;
@@ -36,12 +34,11 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         setSupportActionBar(mToolbar);
-        AppKeyPair appKeys = new AppKeyPair(Constants.APP_KEY, Constants.APP_SECRET);
+     /*   AppKeyPair appKeys = new AppKeyPair(Constants.APP_KEY, Constants.APP_SECRET);
         AndroidAuthSession session = new AndroidAuthSession(appKeys);
         mDBApi = new DropboxAPI<>(session);
-        mDBApi.getSession().startOAuth2Authentication(this);
+        mDBApi.getSession().startOAuth2Authentication(this);*/
     }
 
     @OnClick(R.id.fab)
@@ -65,19 +62,28 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initializeActionBar() {
-        //not used in MainACtivity
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCES_APP, Context.MODE_PRIVATE);
+        boolean isFirstAppStart = sharedPreferences.getBoolean(IS_FIRST_APP_START, true);
+        Log.d(TAG, "initializeActionBar - isFirstAppStart: " + isFirstAppStart);
+        if (isFirstAppStart) {
+            mToolbar.setTitle(getString(R.string.main_ab_setup));
+        } else {
+            mToolbar.setTitle(getString(R.string.app_name));
+        }
     }
 
     @Override
     protected void initializeActivity(Bundle savedInstanceState) {
-        SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCES_APP, Context.MODE_PRIVATE);
+        Log.d(TAG, "initializeActivity");
+      /*  SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCES_APP, Context.MODE_PRIVATE);
         boolean isFirstAppStart = sharedPreferences.getBoolean(IS_FIRST_APP_START, true);
         if (isFirstAppStart) {
             showSetupFragment();
             sharedPreferences.edit().putBoolean(IS_FIRST_APP_START, false).apply();
         } else {
             showHomeFragment();
-        }
+        }*/
+        showSetupFragment();
     }
 
     private void showHomeFragment() {
@@ -106,7 +112,7 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         checkPlayServices();
-        if (mDBApi.getSession().authenticationSuccessful()) {
+     /*   if (mDBApi.getSession().authenticationSuccessful()) {
             try {
                 // Required to complete auth, sets the access token on the session
                 mDBApi.getSession().finishAuthentication();
@@ -115,7 +121,7 @@ public class MainActivity extends BaseActivity {
             } catch (IllegalStateException e) {
                 Log.i("DbAuthLog", "Error authenticating", e);
             }
-        }
+        }*/
     }
 
     @Override

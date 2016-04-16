@@ -4,7 +4,9 @@ package com.rxdroid.extensecalc.internal.di.components;
 import com.rxdroid.extensecalc.internal.di.PerActivity;
 import com.rxdroid.extensecalc.internal.di.modules.ActivityModule;
 import com.rxdroid.extensecalc.internal.di.modules.ApiModule;
+import com.rxdroid.extensecalc.view.fragments.HomeFragment;
 import com.rxdroid.extensecalc.view.fragments.RxBaseFragment;
+import com.rxdroid.extensecalc.view.fragments.SetupFragment;
 
 import dagger.Component;
 
@@ -15,7 +17,9 @@ import dagger.Component;
 @Component(dependencies = AppComponent.class, modules = {ActivityModule.class, ApiModule.class})
 public interface ApiComponent extends ActivityComponent {
 
-    void inject(RxBaseFragment rxBaseFragment);
+    void inject(SetupFragment setupFragment);
+
+    void inject(HomeFragment homeFragment);
 
   /*  void inject(HomeFragment homeFragment);
 

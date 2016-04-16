@@ -89,6 +89,13 @@ public final class RealmLoader {
         Log.d(TAG, "Data restore is done");
     }
 
+    /**
+     * https://medium.com/glucosio-project/example-class-to-export-import-a-realm-database-on-android-c429ade2b4ed#.sxwrotcsc
+     * @param context
+     * @param oldFilePath
+     * @param outFileName
+     * @return
+     */
     private String copyBundledRealmFile(Context context, String oldFilePath, String outFileName) {
         try {
             File file = new File(context.getApplicationContext().getFilesDir(), outFileName);
