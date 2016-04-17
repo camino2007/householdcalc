@@ -10,8 +10,9 @@ public class RealmExpense extends RealmObject {
     private int mYear;
     private int mMonth;
     private int mDay;
-    private int mAmount;
+    private float mAmount;
     private String mCurrency;
+    private String mPaymentRate;
 
     public int getYear() {
         return mYear;
@@ -37,11 +38,11 @@ public class RealmExpense extends RealmObject {
         mDay = day;
     }
 
-    public int getAmount() {
+    public float getAmount() {
         return mAmount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(float amount) {
         mAmount = amount;
     }
 

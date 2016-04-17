@@ -61,6 +61,64 @@ public class User {
         return realmUser;
     }
 
+    public static User create(RealmUser realmuser) {
+        Currency currency = getCurrencyFromDbUser(realmuser.getCurrency());
+        BackupType backupType = getBackupTypeFromDbUser(realmuser);
+        List<Expense> expenseList = getExpenseListFromDbUser(realmuser.getExpenseList());
+        List<Income> incomeList = getIncomeListFromDbUser(realmuser.getIncomeList());
+        return new Builder()
+                .userName(realmuser.getName())
+                .backupType(backupType)
+                .currency(currency)
+                .incomeList(incomeList)
+                .expenseList(expenseList)
+                .build();
+    }
+
+    private static List<Expense> getExpenseListFromDbUser(RealmList<RealmExpense> realmExpenses) {
+        List<Expense> expenseList = new ArrayList<>();
+        Expense expense;
+        for (RealmExpense realmExpense : realmExpenses) {
+            expense = Expense.create(realmExpense);
+            expenseList.add(expense);
+        }
+        return expenseList;
+    }
+
+    private static List<Income> getIncomeListFromDbUser(RealmList<RealmIncome> realmIncomes) {
+        List<Income> incomeList = new ArrayList<>();
+        Income income;
+        for (RealmIncome realmIncome : realmIncomes) {
+            income = Income.create(realmIncome);
+            incomeList.add(income);
+        }
+        return incomeList;
+    }
+
+    private static BackupType getBackupTypeFromDbUser(RealmUser realmUser) {
+        if (realmUser.isEmail()) {
+            return BackupType.EMAIL;
+        }
+        if (realmUser.isHasDropBox()) {
+            return BackupType.DROP_BOX;
+        }
+        if (realmUser.isHasGoogleDrive()) {
+            return BackupType.GOOGLE_DRIVE;
+        }
+        return BackupType.NOT_NOW;
+    }
+
+    private static Currency getCurrencyFromDbUser(String currencyString) {
+        Currency currency = null;
+        for (Currency c : Currency.getCurrencies()) {
+            if (c.getCurrency().equals(currencyString)) {
+                currency = c;
+                break;
+            }
+        }
+        return currency;
+    }
+
     public static class Builder {
         private String userName;
         private Currency currency;

@@ -12,7 +12,8 @@ public enum BackupType {
 
     NOT_NOW(R.string.backup_not_now),
     GOOGLE_DRIVE(R.string.backup_google_drive),
-    DROP_BOX(R.string.backup_drop_box);
+    DROP_BOX(R.string.backup_drop_box),
+    EMAIL(R.string.backup_email);
 
     private int mStringResId;
 

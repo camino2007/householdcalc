@@ -17,8 +17,11 @@ public class RealmUser extends RealmObject {
 
     @Required
     private String name;
+    private String currency;
     private boolean hasDropBox;
     private boolean hasGoogleDrive;
+    private boolean isEmail;
+    private boolean isNotNow;
     private RealmList<RealmIncome> mIncomeList;
     private RealmList<RealmExpense> mExpenseList;
 
@@ -36,6 +39,30 @@ public class RealmUser extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public boolean isEmail() {
+        return isEmail;
+    }
+
+    public void setEmail(boolean email) {
+        isEmail = email;
+    }
+
+    public boolean isNotNow() {
+        return isNotNow;
+    }
+
+    public void setNotNow(boolean notNow) {
+        isNotNow = notNow;
     }
 
     public boolean isHasDropBox() {

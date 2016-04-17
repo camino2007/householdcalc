@@ -20,6 +20,7 @@
     <string name="backup_not_now">Not now</string>
     <string name="backup_drop_box">DropBox</string>
     <string name="backup_google_drive">Google Drive</string>
+    <string name="backup_email">Email</string>
 
     <!--Setup view-->
     <string name="setup_name_hint">Your name</string>
@@ -30,6 +31,13 @@
     <string name="setup_btn_add_expense">Add expense</string>
     <string name="setup_user_name_error">Your user name length needs to be between %1$d and %2$d chars.</string>
 
-
+    <!--Add expense view-->
+    <string name="expense_payment_rate">Select a rate</string>
+    <string name="expense_money_type">Select a type</string>
+    <string name="expense_money_amount">Set an amount</string>
+    <string name="expense_hint">Amount</string>
+    <string name="expense_description">Description</string>
+    <string name="expense_btn_submit">Submit</string>
+    <string name="expense_amount_error">The value needs to be greater 0!</string>
 
 </resources>

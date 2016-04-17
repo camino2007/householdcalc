@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.rxdroid.data.RealmLoader;
 import com.rxdroid.extensecalc.internal.di.modules.AppModule;
+import com.rxdroid.extensecalc.provider.UserProvider;
 import com.rxdroid.extensecalc.view.activities.BaseActivity;
 
 import javax.inject.Singleton;
@@ -19,7 +20,7 @@ import retrofit2.Retrofit;
 public interface AppComponent {
     void inject(BaseActivity baseActivity);
 
-    RealmLoader realmLoader();
+    UserProvider userProvider();
 
     Context context();
 
@@ -27,7 +28,7 @@ public interface AppComponent {
 
 
 
-/*    UserProvider userProvider();
+/*
 
     ErrorUtils errorUtils();*/
 }

@@ -58,12 +58,8 @@ public final class RealmLoader {
         Log.d(TAG, "updateUser - done!");
     }
 
-    public RealmUser readUser(String userName) {
-        return mRealm.where(RealmUser.class).equalTo("name", userName).findFirst();
-    }
-
-    public void deleteUser(String userName) {
-
+    public RealmUser loadUser(String userId) {
+        return mRealm.where(RealmUser.class).equalTo("id", userId).findFirst();
     }
 
     /**

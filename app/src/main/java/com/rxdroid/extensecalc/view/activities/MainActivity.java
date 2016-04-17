@@ -15,6 +15,7 @@ import com.dropbox.client2.android.AndroidAuthSession;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.rxdroid.extensecalc.R;
+import com.rxdroid.extensecalc.view.fragments.AddExpenseFragment;
 import com.rxdroid.extensecalc.view.fragments.HomeFragment;
 import com.rxdroid.extensecalc.view.fragments.SetupFragment;
 
@@ -46,14 +47,7 @@ public class MainActivity extends BaseActivity {
         mDBApi.getSession().startOAuth2Authentication(this);*/
     }
 
-    @OnClick(R.id.fab)
-    public void onFloatingActionBtnClicked() {
-        showAddExpenseDialog();
-    }
 
-    private void showAddExpenseDialog() {
-
-    }
 
     @Override
     protected int getLayoutId() {

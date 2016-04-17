@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Data</string>
+
+    <!--Money types-->
+    <string name="mt_rent">Rent</string>
+    <string name="mt_car">Car</string>
+    <string name="mt_grocery">Grocery</string>
+    <string name="mt_clothing">Clothing</string>
+    <string name="mt_shoes">Shoes</string>
+    <string name="mt_party">Party</string>
+    <string name="mt_sports">Sports</string>
+    <string name="mt_insurance">Insurance</string>
+    <string name="mt_alcohol">Alcohol</string>
+    <string name="mt_energy">Energy</string>
+    <string name="mt_medicine">Medicine</string>
+    <string name="mt_tobacco">Tobacco</string>
+    <string name="pr_one_time">Just once</string>
+    <string name="pr_daily">Daily</string>
+    <string name="pr_weekly">Weekly</string>
+    <string name="pr_two_weekly">Every 2 weeks</string>
+    <string name="pr_monthly">Monthly</string>
+    <string name="pr_three_moths">Every 3 months</string>
+    <string name="pr_annually">Annually</string>
 </resources>

@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center_horizontal"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center"
               android:orientation="vertical">
 
+    <TextView
+        android:layout_width="@dimen/setup_text_width"
+        android:layout_height="wrap_content"
+        android:text="@string/expense_money_amount"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"/>
+
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/setup_input_layout"
+        android:id="@+id/expense_amount_input_layout"
         android:layout_width="@dimen/setup_text_width"
         android:layout_height="wrap_content"
         android:padding="@dimen/standard_padding">
 
         <EditText
-            android:id="@+id/fragment_setup_username"
+            android:id="@+id/expense_amount_edt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/setup_name_hint"
+            android:hint="@string/expense_hint"
             android:imeOptions="actionNext"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:textColor="@android:color/black"/>
 
     </android.support.design.widget.TextInputLayout>
@@ -25,12 +32,12 @@
     <TextView
         android:layout_width="@dimen/setup_text_width"
         android:layout_height="wrap_content"
-        android:text="@string/setup_currency_hint"
+        android:text="@string/expense_money_type"
         android:textColor="@android:color/black"
         android:textSize="12sp"/>
 
     <Spinner
-        android:id="@+id/spinner_currency"
+        android:id="@+id/spinner_money_type"
         android:layout_width="@dimen/setup_text_width"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -39,46 +46,39 @@
     <TextView
         android:layout_width="@dimen/setup_text_width"
         android:layout_height="wrap_content"
-        android:text="@string/setup_backup_hint"
+        android:text="@string/expense_payment_rate"
         android:textColor="@android:color/black"
         android:textSize="12sp"/>
 
     <Spinner
-        android:id="@+id/spinner_backup"
+        android:id="@+id/spinner_payment_rate"
         android:layout_width="@dimen/setup_text_width"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:padding="@dimen/standard_padding"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/expense_input_layout"
+        android:layout_width="@dimen/setup_text_width"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:padding="@dimen/standard_padding">
 
-        <Button
-            android:id="@+id/btn_add_income"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/fragment_expense_description"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/setup_btn_add_income"
-            android:textColor="@color/green"/>
+            android:hint="@string/expense_description"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:textColor="@android:color/black"/>
 
-        <Button
-            android:id="@+id/btn_add_expense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/setup_btn_add_expense"
-            android:textColor="@color/red"/>
-
-
-    </LinearLayout>
+    </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_start"
+        android:id="@+id/btn_submit"
         android:layout_width="@dimen/setup_text_width"
         android:layout_height="wrap_content"
         android:enabled="false"
-        android:text="@string/setup_btn_start"/>
+        android:text="@string/expense_btn_submit"/>
 
 </LinearLayout>
