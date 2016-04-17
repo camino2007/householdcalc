@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
-import com.rxdroid.data.realmmodels.RealmUser;
 import com.rxdroid.domain.Constants;
 import com.rxdroid.domain.subscriber.DefaultSubscriber;
 import com.rxdroid.extensecalc.R;
@@ -49,6 +48,8 @@ public class SetupFragment extends RxBaseFragment implements SetupView {
     @Bind(R.id.spinner_backup) Spinner mBackupSpinner;
     @Bind(R.id.fragment_setup_username) EditText mUserNameTxtField;
     @Bind(R.id.btn_start) Button mContinueBtn;
+    @Bind(R.id.btn_add_expense) Button mAddExpenseBtn;
+    @Bind(R.id.btn_add_income) Button mAddIncomeBtn;
     @Bind(R.id.setup_input_layout) TextInputLayout mTextInputLayout;
 
     @Inject SetupPresenter mSetupPresenter;
@@ -127,10 +128,8 @@ public class SetupFragment extends RxBaseFragment implements SetupView {
     @OnClick(R.id.btn_start)
     public void startBtnClicked() {
         String userName = mUserNameTxtField.getText().toString();
-        int selectedCurrencyPos = mCurrencySpinner.getSelectedItemPosition();
-        Currency currency = Currency.getCurrencies().get(selectedCurrencyPos);
-        int selectedBackupPos = mBackupSpinner.getSelectedItemPosition();
-        BackupType backupType = BackupType.getBackupTypes().get(selectedBackupPos);
+        Currency currency = (Currency) mCurrencySpinner.getSelectedItem();
+        BackupType backupType = (BackupType) mBackupSpinner.getSelectedItem();
         Log.d(getTagText(), "startBtnClicked - currency: " + currency);
         Log.d(getTagText(), "startBtnClicked - backupType: " + backupType);
         User user = new User.Builder()
@@ -138,8 +137,7 @@ public class SetupFragment extends RxBaseFragment implements SetupView {
                 .currency(currency)
                 .backupType(backupType)
                 .build();
-        RealmUser realmUser = User.getRealmUser(user);
-        mSetupPresenter.persistUser(realmUser);
+        mSetupPresenter.persistUser(user);
         Intent mainIntent = MainActivity.getCallingIntent(getContext());
         startActivity(mainIntent);
     }
@@ -177,8 +175,12 @@ public class SetupFragment extends RxBaseFragment implements SetupView {
     private void enableContinueButton() {
         if (mUserNameValid == ValidType.VALID) {
             mContinueBtn.setEnabled(true);
+            mAddIncomeBtn.setEnabled(true);
+            mAddExpenseBtn.setEnabled(true);
         } else {
             mContinueBtn.setEnabled(false);
+            mAddIncomeBtn.setEnabled(false);
+            mAddExpenseBtn.setEnabled(false);
         }
     }
 

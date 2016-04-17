@@ -84,11 +84,11 @@ public class AddExpenseFragment extends DialogFragment {
                 .map(new Func1<CharSequence, ValidType>() {
                     @Override
                     public ValidType call(CharSequence pwChars) {
-                        float amount = Float.valueOf(pwChars.toString());
-                        Log.d(TAG, "amount: " + amount);
-                        boolean isAmountValid = !isEmpty(pwChars) && amount > 0f;
-                        if (isAmountValid) {
-                            return ValidType.VALID;
+                        if(!isEmpty(pwChars)){
+                            float amount = Float.valueOf(pwChars.toString());
+                            if (amount > 0f) {
+                                return ValidType.VALID;
+                            }
                         }
                         return ValidType.IN_VALID;
                     }
@@ -110,7 +110,7 @@ public class AddExpenseFragment extends DialogFragment {
         MoneyType moneyType = MoneyType.getMoneyTypes().get(currencyIndex);
         int paymentIndex = mPaymentSpinner.getSelectedItemPosition();
         PaymentRate paymentRate = PaymentRate.getPaymentRates().get(paymentIndex);
-        MoneyBuilder<Expense> expenseBuilder = new Expense.Builder();
+        Expense.Builder expenseBuilder = new Expense.Builder();
         Expense expense = (Expense) expenseBuilder
                 .setAmount(Float.valueOf(mAmountTxtField.getText().toString()))
                 .setMoneyType(moneyType)

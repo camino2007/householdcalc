@@ -26,14 +26,14 @@ public class Expense extends MoneyModel{
         Builder expenseBuilder = new Builder();
         return (Expense) expenseBuilder
                 .setAmount(realmExpense.getAmount())
-                .setMoneyType(moneyType)
+               // .setMoneyType(moneyType)
                 .setPaymentRate(paymentRate)
                 .setDate(Calendar.getInstance())
                 .build();
     }
 
     private static PaymentRate getPaymentRateFromDb(RealmExpense realmExpense) {
-        realmExpense.
+       // realmExpense.
         return null;
     }
 

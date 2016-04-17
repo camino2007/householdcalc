@@ -74,9 +74,18 @@ public class HomeFragment extends RxBaseFragment implements HomeView, AddExpense
         return getContext();
     }
 
-    @OnClick(R.id.fab)
-    public void onFloatingActionBtnClicked() {
+    @OnClick(R.id.fab_add_expense)
+    public void onFabExpenseClicked() {
         showAddExpenseDialog();
+    }
+
+    @OnClick(R.id.fab_add_income)
+    public void onFabIncomeClicked() {
+        showIncomeDialog();
+    }
+
+    private void showIncomeDialog() {
+
     }
 
     private void showAddExpenseDialog() {

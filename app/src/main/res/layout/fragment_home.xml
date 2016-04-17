@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
@@ -11,17 +12,27 @@
 
 
     <TextView
-        android:text="home_tv_absolute_result"
         android:id="@+id/home_tv_absolute_result"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="home_tv_absolute_result"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_add_income"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/double_standard_padding"
-        android:src="@android:drawable/ic_dialog_email"/>
+        android:src="@mipmap/ic_add_circle_outline_white_48dp"
+        app:backgroundTint="@color/green"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/double_standard_padding"
+        android:src="@mipmap/ic_remove_circle_outline_white_48dp"
+        app:backgroundTint="@color/red"/>
 
 </LinearLayout>
