@@ -3,13 +3,12 @@ package com.rxdroid.extensecalc.internal.di.components;
 import android.content.Context;
 
 import com.rxdroid.data.RealmLoader;
-import com.rxdroid.extensecalc.view.activities.BaseActivity;
 import com.rxdroid.extensecalc.internal.di.modules.AppModule;
+import com.rxdroid.extensecalc.view.activities.BaseActivity;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
-import io.realm.Realm;
 import retrofit2.Retrofit;
 
 /**

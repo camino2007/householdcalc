@@ -23,9 +23,13 @@
 
     <!--Setup view-->
     <string name="setup_name_hint">Your name</string>
+    <string name="setup_currency_hint">Choose your currency</string>
+    <string name="setup_backup_hint">Choose your backup type</string>
     <string name="setup_btn_start">Continue</string>
     <string name="setup_btn_add_income">Add income</string>
     <string name="setup_btn_add_expense">Add expense</string>
+    <string name="setup_user_name_error">Your user name length needs to be between %1$d and %2$d chars.</string>
+
 
 
 </resources>

@@ -36,16 +36,26 @@ public final class RealmLoader {
         mRealm = Realm.getInstance(realmConfig);
     }
 
+    public long getNextPrimaryKey() {
+        Number lastPrimaryKey = mRealm.where(RealmUser.class).max("id");
+        if (lastPrimaryKey != null) {
+            return lastPrimaryKey.longValue();
+        }
+        return 0;
+    }
+
     public void persistUser(RealmUser realmUser) {
         mRealm.beginTransaction();
         mRealm.copyToRealm(realmUser);
         mRealm.commitTransaction();
+        Log.d(TAG, "persistUser - done!");
     }
 
     public void updateUser(RealmUser realmUser) {
         mRealm.beginTransaction();
         mRealm.copyToRealmOrUpdate(realmUser);
         mRealm.commitTransaction();
+        Log.d(TAG, "updateUser - done!");
     }
 
     public RealmUser readUser(String userName) {
@@ -58,6 +68,7 @@ public final class RealmLoader {
 
     /**
      * http://stackoverflow.com/questions/28478987/how-to-view-my-realm-file-in-the-realm-browser
+     *
      * @param context
      * @return
      */
@@ -79,7 +90,7 @@ public final class RealmLoader {
         return exportRealmFile;
     }
 
-    public void restore(Context context){
+    public void restore(Context context) {
         //Restore
         String restoreFilePath = EXPORT_REALM_PATH + "/" + EXPORT_REALM_FILE_NAME;
 
@@ -91,6 +102,7 @@ public final class RealmLoader {
 
     /**
      * https://medium.com/glucosio-project/example-class-to-export-import-a-realm-database-on-android-c429ade2b4ed#.sxwrotcsc
+     *
      * @param context
      * @param oldFilePath
      * @param outFileName

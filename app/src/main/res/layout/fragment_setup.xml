@@ -9,30 +9,47 @@
         android:id="@+id/setup_input_layout"
         android:layout_width="@dimen/setup_text_width"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/standard_padding">
+        android:padding="@dimen/standard_padding">
 
         <EditText
-            android:id="@+id/fragment_login_username"
+            android:id="@+id/fragment_setup_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/setup_name_hint"
             android:imeOptions="actionNext"
             android:inputType="text"
-            android:textColor="@android:color/white"/>
+            android:textColor="@android:color/black"/>
 
     </android.support.design.widget.TextInputLayout>
+
+    <TextView
+
+        android:layout_width="@dimen/setup_text_width"
+        android:layout_height="wrap_content"
+        android:text="@string/setup_currency_hint"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"/>
 
     <Spinner
         android:id="@+id/spinner_currency"
         android:layout_width="@dimen/setup_text_width"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical"
+        android:padding="@dimen/standard_padding"/>
+
+    <TextView
+        android:layout_width="@dimen/setup_text_width"
+        android:layout_height="wrap_content"
+        android:text="@string/setup_backup_hint"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"/>
 
     <Spinner
         android:id="@+id/spinner_backup"
         android:layout_width="@dimen/setup_text_width"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical"
+        android:padding="@dimen/standard_padding"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,7 +62,6 @@
             android:id="@+id/btn_add_income"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
             android:text="@string/setup_btn_add_income"
             android:textColor="@color/green"/>
 
@@ -53,7 +69,6 @@
             android:id="@+id/btn_add_expense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
             android:text="@string/setup_btn_add_expense"
             android:textColor="@color/red"/>
 

@@ -13,7 +13,7 @@ public class RealmUser extends RealmObject {
 
     @Index
     @PrimaryKey
-    private int id;
+    private long id;
 
     @Required
     private String name;
@@ -21,6 +21,38 @@ public class RealmUser extends RealmObject {
     private boolean hasGoogleDrive;
     private RealmList<RealmIncome> mIncomeList;
     private RealmList<RealmExpense> mExpenseList;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long  id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isHasDropBox() {
+        return hasDropBox;
+    }
+
+    public void setHasDropBox(boolean hasDropBox) {
+        this.hasDropBox = hasDropBox;
+    }
+
+    public boolean isHasGoogleDrive() {
+        return hasGoogleDrive;
+    }
+
+    public void setHasGoogleDrive(boolean hasGoogleDrive) {
+        this.hasGoogleDrive = hasGoogleDrive;
+    }
 
     public RealmList<RealmIncome> getIncomeList() {
         return mIncomeList;
@@ -37,5 +69,4 @@ public class RealmUser extends RealmObject {
     public void setExpenseList(RealmList<RealmExpense> expenseList) {
         mExpenseList = expenseList;
     }
-
 }

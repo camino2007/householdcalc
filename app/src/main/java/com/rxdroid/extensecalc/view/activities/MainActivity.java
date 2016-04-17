@@ -1,6 +1,7 @@
 package com.rxdroid.extensecalc.view.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -30,6 +31,10 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.toolbar) Toolbar mToolbar;
 
     private DropboxAPI<AndroidAuthSession> mDBApi;
+
+    public static Intent getCallingIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,15 +80,14 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initializeActivity(Bundle savedInstanceState) {
         Log.d(TAG, "initializeActivity");
-      /*  SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCES_APP, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCES_APP, Context.MODE_PRIVATE);
         boolean isFirstAppStart = sharedPreferences.getBoolean(IS_FIRST_APP_START, true);
         if (isFirstAppStart) {
             showSetupFragment();
             sharedPreferences.edit().putBoolean(IS_FIRST_APP_START, false).apply();
         } else {
             showHomeFragment();
-        }*/
-        showSetupFragment();
+        }
     }
 
     private void showHomeFragment() {
@@ -166,4 +170,6 @@ public class MainActivity extends BaseActivity {
         }
         return true;
     }
+
+
 }

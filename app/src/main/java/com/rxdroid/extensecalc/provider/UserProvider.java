@@ -1,4 +1,3 @@
-/*
 package com.rxdroid.extensecalc.provider;
 
 import android.content.Context;
@@ -6,26 +5,18 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.Gson;
-
-import net.tipzilla.domain.entity.data.CompetitionEntity;
-import net.tipzilla.model.User;
+import com.rxdroid.extensecalc.model.User;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 
 import javax.inject.Inject;
 
-*/
-/**
- * Created by rxdroid on 3/29/16.
- *//*
+
 
 public final class UserProvider extends Observable {
 
@@ -38,7 +29,8 @@ public final class UserProvider extends Observable {
 
     private User mUser;
     private Context mContext;
-    private Map<String, List<CompetitionEntity>> mUserBets = new LinkedHashMap<>();
+
+
 
     @Inject
     public UserProvider(Context context) {
@@ -50,8 +42,8 @@ public final class UserProvider extends Observable {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREFERENCES_USER, Context.MODE_PRIVATE);
         String mail = sharedPreferences.getString(USER_MAIL, "");
         String pw = sharedPreferences.getString(USER_PW, "");
-        user.setMail(mail);
-        user.setPassword(pw);
+      /*  user.setMail(mail);
+        user.setPassword(pw);*/
         this.mUser = user;
         updateSettings(true);
     }
@@ -112,11 +104,6 @@ public final class UserProvider extends Observable {
                 .apply();
     }
 
-    */
-/**
-     * converts current user object into a json string and writes it to internal storage
-     *//*
-
     private void saveUser() {
         Log.d(TAG, "saveUser");
         if (mUser != null) {
@@ -136,14 +123,5 @@ public final class UserProvider extends Observable {
         }
     }
 
-    public void addBets(String eventId, List<CompetitionEntity> competitionEntityList) {
-        mUserBets.put(eventId, competitionEntityList);
-    }
-
-    public Map<String, List<CompetitionEntity>> getUserBets() {
-        return mUserBets;
-    }
-
 
 }
-*/
