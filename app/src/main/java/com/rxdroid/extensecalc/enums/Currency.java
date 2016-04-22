@@ -14,19 +14,19 @@ public enum Currency {
     CHF("SFr", "CHF");
 
     private String mSign;
-    private String mCurrency;
+    private String mCurrencyString;
 
     Currency(String sign, String currency) {
         mSign = sign;
-        mCurrency = currency;
+        mCurrencyString = currency;
     }
 
     public String getSign() {
         return mSign;
     }
 
-    public String getCurrency() {
-        return mCurrency;
+    public String getCurrencyString() {
+        return mCurrencyString;
     }
 
     public static List<Currency> getCurrencies() {

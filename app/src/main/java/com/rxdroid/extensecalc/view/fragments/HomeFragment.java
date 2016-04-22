@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import com.rxdroid.extensecalc.R;
 import com.rxdroid.extensecalc.enums.ErrorType;
 import com.rxdroid.extensecalc.internal.di.components.ApiComponent;
-import com.rxdroid.extensecalc.model.Expense;
+import com.rxdroid.extensecalc.model.Transaction;
 import com.rxdroid.extensecalc.view.HomeView;
 import com.rxdroid.extensecalc.view.ViewPresenter;
 import com.rxdroid.extensecalc.view.presenter.HomePresenter;
@@ -95,7 +95,7 @@ public class HomeFragment extends RxBaseFragment implements HomeView, AddExpense
     }
 
     @Override
-    public void onExpenseCreated(Expense expense) {
+    public void onExpenseCreated(Transaction expense) {
         mHomePresenter.addExpense(expense);
     }
 }

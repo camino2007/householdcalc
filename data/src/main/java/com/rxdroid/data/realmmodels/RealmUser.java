@@ -22,8 +22,8 @@ public class RealmUser extends RealmObject {
     private boolean hasGoogleDrive;
     private boolean isEmail;
     private boolean isNotNow;
-    private RealmList<RealmIncome> mIncomeList;
-    private RealmList<RealmExpense> mExpenseList;
+    private RealmList<RealmTransaction> mIncomeList;
+    private RealmList<RealmTransaction> mExpenseList;
 
     public long getId() {
         return id;
@@ -81,19 +81,19 @@ public class RealmUser extends RealmObject {
         this.hasGoogleDrive = hasGoogleDrive;
     }
 
-    public RealmList<RealmIncome> getIncomeList() {
+    public RealmList<RealmTransaction> getIncomeList() {
         return mIncomeList;
     }
 
-    public void setIncomeList(RealmList<RealmIncome> incomeList) {
+    public void setIncomeList(RealmList<RealmTransaction> incomeList) {
         mIncomeList = incomeList;
     }
 
-    public RealmList<RealmExpense> getExpenseList() {
+    public RealmList<RealmTransaction> getExpenseList() {
         return mExpenseList;
     }
 
-    public void setExpenseList(RealmList<RealmExpense> expenseList) {
+    public void setExpenseList(RealmList<RealmTransaction> expenseList) {
         mExpenseList = expenseList;
     }
 }

@@ -48,8 +48,8 @@ public class SetupPresenter implements ViewPresenter {
     }
 
     public void persistUser(User user) {
-        RealmUser realmUser = User.getRealmUser(user);
-        AtomicLong primaryKeyValue = new AtomicLong(mRealmLoader.getNextPrimaryKey());
+        RealmUser realmUser = User.convertToRealm(user);
+        AtomicLong primaryKeyValue = new AtomicLong(mRealmLoader.getNextUserKey());
         Log.d(TAG, "persistUser - primaryKeyValue: " + primaryKeyValue.get());
         realmUser.setId(primaryKeyValue.get() + 1);
         mRealmLoader.persistUser(realmUser);

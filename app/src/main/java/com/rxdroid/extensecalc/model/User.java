@@ -1,7 +1,6 @@
 package com.rxdroid.extensecalc.model;
 
-import com.rxdroid.data.realmmodels.RealmExpense;
-import com.rxdroid.data.realmmodels.RealmIncome;
+import com.rxdroid.data.realmmodels.RealmTransaction;
 import com.rxdroid.data.realmmodels.RealmUser;
 import com.rxdroid.extensecalc.enums.BackupType;
 import com.rxdroid.extensecalc.enums.Currency;
@@ -16,11 +15,12 @@ import io.realm.RealmList;
  */
 public class User {
 
+    private long mId;
     private String mUserName;
     private Currency mCurrency;
     private BackupType mBackupType;
-    private List<Income> mIncomeList;
-    private List<Expense> mExpenseList;
+    private List<Transaction> mIncomeList;
+    private List<Transaction> mExpenseList;
 
     public User(Builder builder) {
         mUserName = builder.userName;
@@ -42,18 +42,26 @@ public class User {
         return mBackupType;
     }
 
-    public List<Income> getIncomeList() {
+    public List<Transaction> getIncomeList() {
         return mIncomeList;
     }
 
-    public List<Expense> getExpenseList() {
+    public List<Transaction> getExpenseList() {
         return mExpenseList;
     }
 
-    public static RealmUser getRealmUser(User user) {
+    public long getId() {
+        return mId;
+    }
+
+    public void setId(long id) {
+        mId = id;
+    }
+
+    public static RealmUser convertToRealm(User user) {
         RealmUser realmUser = new RealmUser();
-        RealmList<RealmExpense> realmExpenses = Expense.getRealmList(user.getExpenseList());
-        RealmList<RealmIncome> realmIncomes = Income.getRealmList(user.getIncomeList());
+        RealmList<RealmTransaction> realmExpenses = Transaction.convertTransactionsToRealmList(user.getExpenseList());
+        RealmList<RealmTransaction> realmIncomes = Transaction.convertTransactionsToRealmList(user.getIncomeList());
         realmUser.setExpenseList(realmExpenses);
         realmUser.setIncomeList(realmIncomes);
         realmUser.setName(user.getUserName());
@@ -61,11 +69,11 @@ public class User {
         return realmUser;
     }
 
-    public static User create(RealmUser realmuser) {
+    public static User convertFromRealm(RealmUser realmuser) {
         Currency currency = getCurrencyFromDbUser(realmuser.getCurrency());
         BackupType backupType = getBackupTypeFromDbUser(realmuser);
-        List<Expense> expenseList = getExpenseListFromDbUser(realmuser.getExpenseList());
-        List<Income> incomeList = getIncomeListFromDbUser(realmuser.getIncomeList());
+        List<Transaction> expenseList = getExpenseListFromDbUser(realmuser.getExpenseList());
+        List<Transaction> incomeList = getIncomeListFromDbUser(realmuser.getIncomeList());
         return new Builder()
                 .userName(realmuser.getName())
                 .backupType(backupType)
@@ -75,21 +83,21 @@ public class User {
                 .build();
     }
 
-    private static List<Expense> getExpenseListFromDbUser(RealmList<RealmExpense> realmExpenses) {
-        List<Expense> expenseList = new ArrayList<>();
-        Expense expense;
-        for (RealmExpense realmExpense : realmExpenses) {
-            expense = Expense.create(realmExpense);
+    private static List<Transaction> getExpenseListFromDbUser(RealmList<RealmTransaction> realmTransactions) {
+        List<Transaction> expenseList = new ArrayList<>();
+        Transaction expense;
+        for (RealmTransaction realmTransaction : realmTransactions) {
+            expense = Transaction.convertFromRealm(realmTransaction);
             expenseList.add(expense);
         }
         return expenseList;
     }
 
-    private static List<Income> getIncomeListFromDbUser(RealmList<RealmIncome> realmIncomes) {
-        List<Income> incomeList = new ArrayList<>();
-        Income income;
-        for (RealmIncome realmIncome : realmIncomes) {
-            income = Income.create(realmIncome);
+    private static List<Transaction> getIncomeListFromDbUser(RealmList<RealmTransaction> realmIncomes) {
+        List<Transaction> incomeList = new ArrayList<>();
+        Transaction income;
+        for (RealmTransaction realmTransaction : realmIncomes) {
+            income = Transaction.convertFromRealm(realmTransaction);
             incomeList.add(income);
         }
         return incomeList;
@@ -111,7 +119,7 @@ public class User {
     private static Currency getCurrencyFromDbUser(String currencyString) {
         Currency currency = null;
         for (Currency c : Currency.getCurrencies()) {
-            if (c.getCurrency().equals(currencyString)) {
+            if (c.getCurrencyString().equals(currencyString)) {
                 currency = c;
                 break;
             }
@@ -119,12 +127,20 @@ public class User {
         return currency;
     }
 
+    public void addExpense(Transaction expense) {
+        mExpenseList.add(expense);
+    }
+
+    public void addIncome(Transaction income){
+        mExpenseList.add(income);
+    }
+
     public static class Builder {
         private String userName;
         private Currency currency;
         private BackupType backupType;
-        private List<Income> incomeList = new ArrayList<>();
-        private List<Expense> expenseList = new ArrayList<>();
+        private List<Transaction> incomeList = new ArrayList<>();
+        private List<Transaction> expenseList = new ArrayList<>();
 
         public Builder userName(String userName) {
             this.userName = userName;
@@ -141,12 +157,12 @@ public class User {
             return this;
         }
 
-        public Builder incomeList(List<Income> incomeList) {
+        public Builder incomeList(List<Transaction> incomeList) {
             this.incomeList = incomeList;
             return this;
         }
 
-        public Builder expenseList(List<Expense> expenseList) {
+        public Builder expenseList(List<Transaction> expenseList) {
             this.expenseList = expenseList;
             return this;
         }

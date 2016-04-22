@@ -15,12 +15,10 @@ import com.dropbox.client2.android.AndroidAuthSession;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.rxdroid.extensecalc.R;
-import com.rxdroid.extensecalc.view.fragments.AddExpenseFragment;
 import com.rxdroid.extensecalc.view.fragments.HomeFragment;
 import com.rxdroid.extensecalc.view.fragments.SetupFragment;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 

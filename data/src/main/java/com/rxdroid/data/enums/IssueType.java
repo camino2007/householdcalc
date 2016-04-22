@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by rxdroid on 4/11/16.
  */
-public enum MoneyType {
+public enum IssueType {
 
     RENT(R.string.mt_rent),
     GROCERY(R.string.mt_grocery),
@@ -25,7 +25,7 @@ public enum MoneyType {
 
     private int mStringResId;
 
-    MoneyType(int stringResId) {
+    IssueType(int stringResId) {
         mStringResId = stringResId;
     }
 
@@ -33,7 +33,7 @@ public enum MoneyType {
         return mStringResId;
     }
 
-    public static List<MoneyType> getMoneyTypes() {
-        return Arrays.asList(MoneyType.class.getEnumConstants());
+    public static List<IssueType> getTypes() {
+        return Arrays.asList(IssueType.class.getEnumConstants());
     }
 }

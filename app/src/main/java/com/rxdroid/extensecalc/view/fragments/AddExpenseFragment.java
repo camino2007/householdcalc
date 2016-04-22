@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +13,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
-import com.rxdroid.data.enums.MoneyType;
+import com.rxdroid.data.enums.IssueType;
 import com.rxdroid.data.enums.PaymentRate;
 import com.rxdroid.domain.subscriber.DefaultSubscriber;
 import com.rxdroid.extensecalc.R;
 import com.rxdroid.extensecalc.enums.ValidType;
-import com.rxdroid.extensecalc.model.Expense;
-import com.rxdroid.extensecalc.model.MoneyBuilder;
+import com.rxdroid.extensecalc.model.Transaction;
 
 import java.util.Calendar;
 
@@ -71,7 +69,7 @@ public class AddExpenseFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_expense, container, false);
         ButterKnife.bind(this, view);
-        mMoneySpinner.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, MoneyType.values()));
+        mMoneySpinner.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, IssueType.values()));
         mPaymentSpinner.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, PaymentRate.values()));
         validateAmount();
         return view;
@@ -84,7 +82,7 @@ public class AddExpenseFragment extends DialogFragment {
                 .map(new Func1<CharSequence, ValidType>() {
                     @Override
                     public ValidType call(CharSequence pwChars) {
-                        if(!isEmpty(pwChars)){
+                        if (!isEmpty(pwChars)) {
                             float amount = Float.valueOf(pwChars.toString());
                             if (amount > 0f) {
                                 return ValidType.VALID;
@@ -107,15 +105,14 @@ public class AddExpenseFragment extends DialogFragment {
     @OnClick(R.id.btn_submit)
     public void onSubmitClicked() {
         int currencyIndex = mMoneySpinner.getSelectedItemPosition();
-        MoneyType moneyType = MoneyType.getMoneyTypes().get(currencyIndex);
+        IssueType issueType = IssueType.getTypes().get(currencyIndex);
         int paymentIndex = mPaymentSpinner.getSelectedItemPosition();
         PaymentRate paymentRate = PaymentRate.getPaymentRates().get(paymentIndex);
-        Expense.Builder expenseBuilder = new Expense.Builder();
-        Expense expense = (Expense) expenseBuilder
-                .setAmount(Float.valueOf(mAmountTxtField.getText().toString()))
-                .setMoneyType(moneyType)
-                .setPaymentRate(paymentRate)
-                .setDate(Calendar.getInstance())
+        Transaction expense = new Transaction.Builder()
+                .amount(Float.valueOf(mAmountTxtField.getText().toString()))
+                .paymentRate(paymentRate)
+                .issueType(issueType)
+                .transactionDate(Calendar.getInstance())
                 .build();
         mExpenseCallback.onExpenseCreated(expense);
         dismiss();
@@ -153,6 +150,6 @@ public class AddExpenseFragment extends DialogFragment {
     }
 
     public interface OnAddExpenseCallback {
-        void onExpenseCreated(Expense expense);
+        void onExpenseCreated(Transaction expense);
     }
 }

@@ -6,7 +6,7 @@ import android.text.TextUtils;
 
 import com.rxdroid.data.RealmLoader;
 import com.rxdroid.data.realmmodels.RealmUser;
-import com.rxdroid.extensecalc.model.Expense;
+import com.rxdroid.extensecalc.model.Transaction;
 import com.rxdroid.extensecalc.model.User;
 
 import java.util.Observable;
@@ -36,12 +36,27 @@ public final class UserProvider extends Observable {
         String userId = sharedPreferences.getString(USER_ID, "");
         if (!TextUtils.isEmpty(userId)) {
             RealmUser realmuser = mRealmLoader.loadUser(userId);
-            mUser = User.create(realmuser);
+            mUser = User.convertFromRealm(realmuser);
         }
     }
 
-    public void addExpense(Expense expense) {
+    public User getUser() {
+        return mUser;
+    }
 
+    public void addExpense(Transaction expense) {
+        mUser.addExpense(expense);
+        persistUpdateForUser();
+    }
+
+    public void addIncome(Transaction income) {
+        mUser.addIncome(income);
+        persistUpdateForUser();
+    }
+
+    private void persistUpdateForUser() {
+        RealmUser realmUser = User.convertToRealm(mUser);
+        mRealmLoader.updateUser(realmUser);
     }
 
 

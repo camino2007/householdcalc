@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
+import com.rxdroid.data.realmmodels.RealmTransaction;
 import com.rxdroid.data.realmmodels.RealmUser;
 
 import java.io.File;
@@ -36,8 +37,16 @@ public final class RealmLoader {
         mRealm = Realm.getInstance(realmConfig);
     }
 
-    public long getNextPrimaryKey() {
+    public long getNextUserKey() {
         Number lastPrimaryKey = mRealm.where(RealmUser.class).max("id");
+        if (lastPrimaryKey != null) {
+            return lastPrimaryKey.longValue();
+        }
+        return 0;
+    }
+
+    public long getNextTransactionKey() {
+        Number lastPrimaryKey = mRealm.where(RealmTransaction.class).max("id");
         if (lastPrimaryKey != null) {
             return lastPrimaryKey.longValue();
         }
@@ -61,6 +70,13 @@ public final class RealmLoader {
     public RealmUser loadUser(String userId) {
         return mRealm.where(RealmUser.class).equalTo("id", userId).findFirst();
     }
+
+    public void addExpense(RealmTransaction realmTransaction, String userId) {
+        RealmUser realmUser = loadUser(userId);
+        realmUser.getExpenseList().add(realmTransaction);
+        updateUser(realmUser);
+    }
+
 
     /**
      * http://stackoverflow.com/questions/28478987/how-to-view-my-realm-file-in-the-realm-browser
@@ -121,5 +137,6 @@ public final class RealmLoader {
         }
         return null;
     }
+
 
 }
