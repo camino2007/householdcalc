@@ -60,18 +60,20 @@ public class User {
 
     public static RealmUser convertToRealm(User user) {
         RealmUser realmUser = new RealmUser();
+        realmUser.setId(user.getId());
         RealmList<RealmTransaction> realmExpenses = Transaction.convertTransactionsToRealmList(user.getExpenseList());
         RealmList<RealmTransaction> realmIncomes = Transaction.convertTransactionsToRealmList(user.getIncomeList());
         realmUser.setExpenseList(realmExpenses);
         realmUser.setIncomeList(realmIncomes);
         realmUser.setName(user.getUserName());
-        //TODO enums
+        realmUser.setBackupType(user.getBackupType().toString());
+        realmUser.setCurrency(user.getCurrency().toString());
         return realmUser;
     }
 
     public static User convertFromRealm(RealmUser realmuser) {
         Currency currency = getCurrencyFromDbUser(realmuser.getCurrency());
-        BackupType backupType = getBackupTypeFromDbUser(realmuser);
+        BackupType backupType = getBackupTypeFromRealm(realmuser.getBackupType());
         List<Transaction> expenseList = getExpenseListFromDbUser(realmuser.getExpenseList());
         List<Transaction> incomeList = getIncomeListFromDbUser(realmuser.getIncomeList());
         return new Builder()
@@ -103,17 +105,15 @@ public class User {
         return incomeList;
     }
 
-    private static BackupType getBackupTypeFromDbUser(RealmUser realmUser) {
-        if (realmUser.isEmail()) {
-            return BackupType.EMAIL;
+    private static BackupType getBackupTypeFromRealm(String backupTypeAsString) {
+        BackupType backupType = null;
+        for (BackupType type : BackupType.getBackupTypes()) {
+            if (type.toString().equalsIgnoreCase(backupTypeAsString)) {
+                backupType = type;
+                break;
+            }
         }
-        if (realmUser.isHasDropBox()) {
-            return BackupType.DROP_BOX;
-        }
-        if (realmUser.isHasGoogleDrive()) {
-            return BackupType.GOOGLE_DRIVE;
-        }
-        return BackupType.NOT_NOW;
+        return backupType;
     }
 
     private static Currency getCurrencyFromDbUser(String currencyString) {
@@ -131,7 +131,7 @@ public class User {
         mExpenseList.add(expense);
     }
 
-    public void addIncome(Transaction income){
+    public void addIncome(Transaction income) {
         mExpenseList.add(income);
     }
 

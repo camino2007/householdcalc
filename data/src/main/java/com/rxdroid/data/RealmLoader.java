@@ -32,7 +32,20 @@ public final class RealmLoader {
     @Inject
     public RealmLoader(Context context) {
         // Create a RealmConfiguration which is to locate Realm file in package's "files" directory.
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder(context).build();
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder(context)
+                .schemaVersion(1)
+                .build();
+
+   //TODO add Realm migration
+    /*
+     https://github.com/realm/realm-java/blob/master/examples/migrationExample/src/main/java/io/realm/examples/realmmigrationexample/model/Migration.java
+     try {
+            Realm.migrateRealm(config0, new Migration());
+        } catch (FileNotFoundException ignored) {
+            // If the Realm file doesn't exist, just ignore.
+        }*/
+
+
         // Get a Realm instance for this thread
         mRealm = Realm.getInstance(realmConfig);
     }
@@ -67,14 +80,25 @@ public final class RealmLoader {
         Log.d(TAG, "updateUser - done!");
     }
 
-    public RealmUser loadUser(String userId) {
+    public RealmUser loadUser(long userId) {
         return mRealm.where(RealmUser.class).equalTo("id", userId).findFirst();
     }
 
-    public void addExpense(RealmTransaction realmTransaction, String userId) {
+    public void addExpense(RealmTransaction expense, long userId) {
         RealmUser realmUser = loadUser(userId);
-        realmUser.getExpenseList().add(realmTransaction);
-        updateUser(realmUser);
+        mRealm.beginTransaction();
+        realmUser.getExpenseList().add(expense);
+        mRealm.copyToRealmOrUpdate(realmUser);
+        mRealm.commitTransaction();
+    }
+
+
+    public void addIncome(RealmTransaction income, long userId) {
+        RealmUser realmUser = loadUser(userId);
+        mRealm.beginTransaction();
+        realmUser.getIncomeList().add(income);
+        mRealm.copyToRealmOrUpdate(realmUser);
+        mRealm.commitTransaction();
     }
 
 

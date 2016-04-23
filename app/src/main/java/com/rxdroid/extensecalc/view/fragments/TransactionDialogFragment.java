@@ -35,9 +35,10 @@ import static android.text.TextUtils.isEmpty;
 /**
  * Created by rxdroid on 4/16/16.
  */
-public class AddExpenseFragment extends DialogFragment {
+public class TransactionDialogFragment extends DialogFragment {
 
-    private static final String TAG = "AddExpenseFragment";
+    private static final String TAG = "TransactionDialogFragment";
+    private static final String KEY_IS_EXPENSE = "keyIsExpense";
 
     @Bind(R.id.spinner_money_type) Spinner mMoneySpinner;
     @Bind(R.id.spinner_payment_rate) Spinner mPaymentSpinner;
@@ -46,12 +47,16 @@ public class AddExpenseFragment extends DialogFragment {
     @Bind(R.id.expense_amount_input_layout) TextInputLayout mTextInputLayout;
 
     private CompositeSubscription mCompositeSubscription;
-    private OnAddExpenseCallback mExpenseCallback;
+    private OnTransactionCallback mExpenseCallback;
 
     private ValidType mAmountValid = ValidType.IN_VALID;
 
-    public static AddExpenseFragment initialize() {
-        return new AddExpenseFragment();
+    public static TransactionDialogFragment initialize(boolean isExpense) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(KEY_IS_EXPENSE, isExpense);
+        TransactionDialogFragment expenseFragment = new TransactionDialogFragment();
+        expenseFragment.setArguments(bundle);
+        return expenseFragment;
     }
 
     @Override
@@ -60,7 +65,7 @@ public class AddExpenseFragment extends DialogFragment {
         mCompositeSubscription = new CompositeSubscription();
     }
 
-    public void setExpenseCallback(OnAddExpenseCallback expenseCallback) {
+    public void setExpenseCallback(OnTransactionCallback expenseCallback) {
         mExpenseCallback = expenseCallback;
     }
 
@@ -100,6 +105,12 @@ public class AddExpenseFragment extends DialogFragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
         mExpenseCallback = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCompositeSubscription.clear();
     }
 
     @OnClick(R.id.btn_submit)
@@ -149,7 +160,8 @@ public class AddExpenseFragment extends DialogFragment {
         }
     }
 
-    public interface OnAddExpenseCallback {
+    public interface OnTransactionCallback {
         void onExpenseCreated(Transaction expense);
+        void onIncomeCreated(Transaction expense);
     }
 }

@@ -10,6 +10,7 @@ import com.rxdroid.data.RealmLoader;
 import com.rxdroid.domain.util.NetworkUtil;
 import com.rxdroid.extensecalc.BaseApplication;
 import com.rxdroid.extensecalc.BuildConfig;
+import com.rxdroid.extensecalc.provider.TransactionProvider;
 import com.rxdroid.extensecalc.provider.UserProvider;
 
 import java.util.concurrent.TimeUnit;
@@ -99,10 +100,16 @@ public class AppModule {
 
     @Provides
     @Singleton
-    UserProvider provideUserProvider(Context context) {
-        UserProvider userProvider = new UserProvider(context);
+    UserProvider provideUserProvider(Context context, RealmLoader realmLoader) {
+        UserProvider userProvider = new UserProvider(context, realmLoader);
         userProvider.loadUser();
         return userProvider;
+    }
+
+    @Provides
+    @Singleton
+    TransactionProvider provideTransactionManager(UserProvider userProvider) {
+        return new TransactionProvider(userProvider);
     }
 
 /*

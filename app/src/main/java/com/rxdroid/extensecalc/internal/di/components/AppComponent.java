@@ -3,6 +3,7 @@ package com.rxdroid.extensecalc.internal.di.components;
 import android.content.Context;
 
 import com.rxdroid.extensecalc.internal.di.modules.AppModule;
+import com.rxdroid.extensecalc.provider.TransactionProvider;
 import com.rxdroid.extensecalc.provider.UserProvider;
 import com.rxdroid.extensecalc.view.activities.BaseActivity;
 
@@ -20,6 +21,8 @@ public interface AppComponent {
     void inject(BaseActivity baseActivity);
 
     UserProvider userProvider();
+
+    TransactionProvider transactionManager();
 
     Context context();
 

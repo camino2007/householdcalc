@@ -3,7 +3,6 @@ package com.rxdroid.extensecalc.model;
 import com.rxdroid.data.enums.IssueType;
 import com.rxdroid.data.enums.PaymentRate;
 import com.rxdroid.data.realmmodels.RealmTransaction;
-import com.rxdroid.extensecalc.enums.Currency;
 
 import java.util.Calendar;
 import java.util.List;
@@ -12,13 +11,12 @@ import io.realm.RealmList;
 
 /**
  * Created by rxdroid on 4/17/16.
- * <p>
+ * <p/>
  * Incomes and Expenses are modeled by this class
  */
 public class Transaction {
 
     private float mAmount;
-    private Currency mCurrency;
     private PaymentRate mPaymentRate;
     private IssueType mIssueType;
     private String mDescription;
@@ -28,7 +26,6 @@ public class Transaction {
 
     public Transaction(Builder builder) {
         mAmount = builder.amount;
-        mCurrency = builder.currency;
         mPaymentRate = builder.paymentRate;
         mIsScheduled = builder.isScheduled;
         mIssueType = builder.issueType;
@@ -39,10 +36,6 @@ public class Transaction {
 
     public float getAmount() {
         return mAmount;
-    }
-
-    public Currency getCurrency() {
-        return mCurrency;
     }
 
     public PaymentRate getPaymentRate() {
@@ -83,7 +76,6 @@ public class Transaction {
         RealmTransaction realmTransaction = new RealmTransaction();
         realmTransaction.setAmount(transaction.getAmount());
         realmTransaction.setPaymentRate(transaction.getPaymentRate().toString());
-        realmTransaction.setCurrency(transaction.getCurrency().toString());
         realmTransaction.setDescription(transaction.getDescription());
         realmTransaction.setIssue(transaction.getIssueType().toString());
         realmTransaction.setScheduled(transaction.isScheduled());
@@ -93,18 +85,19 @@ public class Transaction {
         realmTransaction.setYear(year);
         realmTransaction.setMonth(month);
         realmTransaction.setDay(day);
-        int yearScheduled = transaction.getScheduledDate().get(Calendar.YEAR);
-        int monthScheduled = transaction.getScheduledDate().get(Calendar.MONTH);
-        int dayScheduled = transaction.getScheduledDate().get(Calendar.DAY_OF_MONTH);
-        realmTransaction.setYearScheduled(yearScheduled);
-        realmTransaction.setMonthScheduled(monthScheduled);
-        realmTransaction.setDayScheduled(dayScheduled);
+        if (transaction.isScheduled()) {
+            int yearScheduled = transaction.getScheduledDate().get(Calendar.YEAR);
+            int monthScheduled = transaction.getScheduledDate().get(Calendar.MONTH);
+            int dayScheduled = transaction.getScheduledDate().get(Calendar.DAY_OF_MONTH);
+            realmTransaction.setYearScheduled(yearScheduled);
+            realmTransaction.setMonthScheduled(monthScheduled);
+            realmTransaction.setDayScheduled(dayScheduled);
+        }
         return realmTransaction;
     }
 
     public static Transaction convertFromRealm(RealmTransaction rt) {
         PaymentRate paymentRate = getPaymentRateFromRealm(rt.getPaymentRate());
-        Currency currency = getCurrencyFromRealm(rt.getCurrency());
         IssueType issueType = getIssueTypeFromRealm(rt.getIssue());
         Calendar date = getDateFromRealm(rt.getYear(), rt.getMonth(), rt.getDay());
         Calendar scheduledDate = getDateFromRealm(rt.getYearScheduled(), rt.getMonthScheduled(), rt.getDayScheduled());
@@ -113,7 +106,6 @@ public class Transaction {
                 .isScheduled(rt.isScheduled())
                 .description(rt.getDescription())
                 .paymentRate(paymentRate)
-                .currency(currency)
                 .issueType(issueType)
                 .transactionDate(date)
                 .scheduledDate(scheduledDate)
@@ -137,17 +129,6 @@ public class Transaction {
         return issueType;
     }
 
-    private static Currency getCurrencyFromRealm(String currencyAsString) {
-        Currency currency = null;
-        for (Currency c : Currency.getCurrencies()) {
-            if (c.toString().equals(currencyAsString)) {
-                currency = c;
-                break;
-            }
-        }
-        return currency;
-    }
-
     private static PaymentRate getPaymentRateFromRealm(String paymentRateAsString) {
         PaymentRate paymentRate = null;
         for (PaymentRate rate : PaymentRate.getPaymentRates()) {
@@ -161,11 +142,10 @@ public class Transaction {
 
     public static class Builder {
         private float amount;
-        private Currency currency;
         private PaymentRate paymentRate;
         private IssueType issueType;
         private String description;
-        private boolean isScheduled;
+        private boolean isScheduled = false;
         private Calendar date;
         private Calendar scheduledDate;
 
@@ -180,18 +160,8 @@ public class Transaction {
             return this;
         }
 
-        public Builder currency(Currency currency) {
-            this.currency = currency;
-            return this;
-        }
-
         public Builder paymentRate(PaymentRate paymentRate) {
             this.paymentRate = paymentRate;
-            return this;
-        }
-
-        public Builder moneyType(IssueType issueType) {
-            this.issueType = issueType;
             return this;
         }
 

@@ -21,7 +21,6 @@ public class RealmTransaction extends RealmObject {
     private int yearScheduled;
     private int monthScheduled;
     private int dayScheduled;
-    private String currency;
     private String issue;
     private String paymentRate;
     private String description;
@@ -64,14 +63,6 @@ public class RealmTransaction extends RealmObject {
 
     public void setAmount(float amount) {
         this.amount = amount;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     public String getPaymentRate() {

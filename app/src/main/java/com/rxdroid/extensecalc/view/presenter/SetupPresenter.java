@@ -1,14 +1,9 @@
 package com.rxdroid.extensecalc.view.presenter;
 
-import android.util.Log;
-
-import com.rxdroid.data.RealmLoader;
-import com.rxdroid.data.realmmodels.RealmUser;
 import com.rxdroid.extensecalc.model.User;
+import com.rxdroid.extensecalc.provider.UserProvider;
 import com.rxdroid.extensecalc.view.SetupView;
 import com.rxdroid.extensecalc.view.ViewPresenter;
-
-import java.util.concurrent.atomic.AtomicLong;
 
 import javax.inject.Inject;
 
@@ -21,7 +16,7 @@ public class SetupPresenter implements ViewPresenter {
 
     private SetupView mSetupView;
 
-    @Inject RealmLoader mRealmLoader;
+    @Inject UserProvider mUserProvider;
 
     @Inject
     public SetupPresenter() {
@@ -48,10 +43,6 @@ public class SetupPresenter implements ViewPresenter {
     }
 
     public void persistUser(User user) {
-        RealmUser realmUser = User.convertToRealm(user);
-        AtomicLong primaryKeyValue = new AtomicLong(mRealmLoader.getNextUserKey());
-        Log.d(TAG, "persistUser - primaryKeyValue: " + primaryKeyValue.get());
-        realmUser.setId(primaryKeyValue.get() + 1);
-        mRealmLoader.persistUser(realmUser);
+        mUserProvider.persistUser(user);
     }
 }

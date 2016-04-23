@@ -54,7 +54,6 @@ public abstract class RxBaseFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mCompositeSubscription = new CompositeSubscription();
         if (mViewPresenter != null) {
             Log.d(getTagText(), "onResume - " + getTagText());
             mViewPresenter.resume();

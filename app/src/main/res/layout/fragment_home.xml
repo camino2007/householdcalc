@@ -1,27 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:padding="@dimen/standard_padding">
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="19"/>
-
-
-    <TextView
-        android:id="@+id/home_tv_absolute_result"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="home_tv_absolute_result"/>
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="tv_date"/>
+
+        <FrameLayout
+            android:id="@+id/income_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/double_standard_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_income"/>
+
+            <TextView
+                android:id="@+id/tv_monthly_incomes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"/>
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="@dimen/double_standard_padding"
+            android:layout_marginLeft="@dimen/double_standard_padding"
+            android:layout_marginRight="@dimen/double_standard_padding"
+            android:layout_marginStart="@dimen/double_standard_padding"
+            android:background="@color/colorPrimaryDark"/>
+
+        <FrameLayout
+            android:id="@+id/expense_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/double_standard_padding">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/home_income"/>
+
+            <TextView
+
+                android:id="@+id/tv_monthly_expenses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"/>
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="@dimen/double_standard_padding"
+            android:layout_marginLeft="@dimen/double_standard_padding"
+            android:layout_marginRight="@dimen/double_standard_padding"
+            android:layout_marginStart="@dimen/double_standard_padding"
+            android:background="@color/colorPrimaryDark"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/double_standard_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/home_tv_absolute_result"
+                android:layout_marginEnd="@dimen/double_standard_padding"
+                android:layout_marginRight="@dimen/double_standard_padding"
+                android:layout_toLeftOf="@+id/home_tv_absolute_result"
+                android:layout_toStartOf="@+id/home_tv_absolute_result"
+                android:text="@string/home_result"/>
+
+            <TextView
+                android:id="@+id/home_tv_absolute_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add_income"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_gravity="bottom|start"
         android:layout_margin="@dimen/double_standard_padding"
         android:src="@mipmap/ic_add_circle_outline_white_48dp"
         app:backgroundTint="@color/green"/>
@@ -35,4 +120,11 @@
         android:src="@mipmap/ic_remove_circle_outline_white_48dp"
         app:backgroundTint="@color/red"/>
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+</FrameLayout>

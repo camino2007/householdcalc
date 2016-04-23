@@ -40,4 +40,9 @@
     <string name="expense_btn_submit">Submit</string>
     <string name="expense_amount_error">The value needs to be greater 0!</string>
 
+    <!--Home-->
+    <string name="home_income">Income:</string>
+    <string name="home_expense">Expense:</string>
+    <string name="home_result">Sum:</string>
+
 </resources>

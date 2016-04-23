@@ -4,6 +4,8 @@ import com.rxdroid.data.RealmLoader;
 import com.rxdroid.data.realmmodels.RealmTransaction;
 import com.rxdroid.extensecalc.internal.di.PerActivity;
 import com.rxdroid.extensecalc.model.Transaction;
+import com.rxdroid.extensecalc.model.UserResult;
+import com.rxdroid.extensecalc.provider.TransactionProvider;
 import com.rxdroid.extensecalc.provider.UserProvider;
 import com.rxdroid.extensecalc.view.HomeView;
 import com.rxdroid.extensecalc.view.ViewPresenter;
@@ -21,6 +23,7 @@ public class HomePresenter implements ViewPresenter {
     private HomeView mHomeView;
 
     @Inject UserProvider mUserProvider;
+    @Inject TransactionProvider mTransactionProvider;
     @Inject RealmLoader mRealmLoader;
 
     @Inject
@@ -51,6 +54,31 @@ public class HomePresenter implements ViewPresenter {
         AtomicLong primaryKeyValue = new AtomicLong(mRealmLoader.getNextTransactionKey());
         realmTransaction.setId(primaryKeyValue.get() + 1);
         mUserProvider.addExpense(expense);
-        mRealmLoader.addExpense(realmTransaction, String.valueOf(mUserProvider.getUser().getId()));
+        mRealmLoader.addExpense(realmTransaction, mUserProvider.getUser().getId());
+    }
+
+    public void addIncome(Transaction income) {
+        RealmTransaction realmTransaction = Transaction.convertToRealm(income);
+        AtomicLong primaryKeyValue = new AtomicLong(mRealmLoader.getNextTransactionKey());
+        realmTransaction.setId(primaryKeyValue.get() + 1);
+        mUserProvider.addIncome(income);
+        mRealmLoader.addIncome(realmTransaction, mUserProvider.getUser().getId());
+    }
+
+    public void loadUserData(int queryForMonth) {
+        showLoading();
+        UserResult userResult = mTransactionProvider.calcUserDataForMonth(queryForMonth);
+        if (userResult != null) {
+            mHomeView.onUserDataDone(userResult);
+        }
+        hideLoading();
+    }
+
+    private void showLoading() {
+        mHomeView.showLoading();
+    }
+
+    private void hideLoading() {
+        mHomeView.hideLoading();
     }
 }

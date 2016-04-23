@@ -18,10 +18,7 @@ public class RealmUser extends RealmObject {
     @Required
     private String name;
     private String currency;
-    private boolean hasDropBox;
-    private boolean hasGoogleDrive;
-    private boolean isEmail;
-    private boolean isNotNow;
+    private String backupType;
     private RealmList<RealmTransaction> mIncomeList;
     private RealmList<RealmTransaction> mExpenseList;
 
@@ -29,7 +26,7 @@ public class RealmUser extends RealmObject {
         return id;
     }
 
-    public void setId(long  id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -49,36 +46,12 @@ public class RealmUser extends RealmObject {
         this.currency = currency;
     }
 
-    public boolean isEmail() {
-        return isEmail;
+    public String getBackupType() {
+        return backupType;
     }
 
-    public void setEmail(boolean email) {
-        isEmail = email;
-    }
-
-    public boolean isNotNow() {
-        return isNotNow;
-    }
-
-    public void setNotNow(boolean notNow) {
-        isNotNow = notNow;
-    }
-
-    public boolean isHasDropBox() {
-        return hasDropBox;
-    }
-
-    public void setHasDropBox(boolean hasDropBox) {
-        this.hasDropBox = hasDropBox;
-    }
-
-    public boolean isHasGoogleDrive() {
-        return hasGoogleDrive;
-    }
-
-    public void setHasGoogleDrive(boolean hasGoogleDrive) {
-        this.hasGoogleDrive = hasGoogleDrive;
+    public void setBackupType(String backupType) {
+        this.backupType = backupType;
     }
 
     public RealmList<RealmTransaction> getIncomeList() {
