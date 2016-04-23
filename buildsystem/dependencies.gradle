@@ -54,7 +54,7 @@ ext {
             butterknife          : "com.jakewharton:butterknife:${butterknifeVersion}",
             oklog3               : "com.github.simonpercic:oklog3:${oklog3Version}",
             rxlint               : "nl.littlerobots.rxlint:rxlint:${rxlintVersion}",
-                googlePlayServiceBase: "com.google.android.gms:play-services-base:${googleVersion}",
+            googlePlayServiceBase: "com.google.android.gms:play-services-base:${googleVersion}",
             googlePlayServiceAds : "com.google.android.gms:play-services-ads:${googleVersion}",
 
     ]
