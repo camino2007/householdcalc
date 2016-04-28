@@ -48,12 +48,12 @@ public final class UserProvider extends Observable {
 
     public void addExpense(Transaction expense) {
         mUser.addExpense(expense);
-        persistUpdateForUser();
+        //persistUpdateForUser();
     }
 
     public void addIncome(Transaction income) {
         mUser.addIncome(income);
-        persistUpdateForUser();
+       // persistUpdateForUser();
     }
 
     private void persistUpdateForUser() {

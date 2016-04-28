@@ -132,7 +132,7 @@ public class User {
     }
 
     public void addIncome(Transaction income) {
-        mExpenseList.add(income);
+        mIncomeList.add(income);
     }
 
     public static class Builder {

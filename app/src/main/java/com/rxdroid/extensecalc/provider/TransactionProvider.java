@@ -1,5 +1,7 @@
 package com.rxdroid.extensecalc.provider;
 
+import android.util.Log;
+
 import com.rxdroid.extensecalc.model.Transaction;
 import com.rxdroid.extensecalc.model.UserResult;
 
@@ -13,6 +15,8 @@ import javax.inject.Inject;
  */
 public final class TransactionProvider {
 
+    private static final String TAG = "TransactionProvider";
+
     private final UserProvider mUserProvider;
 
     @Inject
@@ -23,7 +27,13 @@ public final class TransactionProvider {
     public UserResult calcUserDataForMonth(int month) {
         if (mUserProvider.getUser() != null) {
             List<Transaction> expenseList = mUserProvider.getUser().getExpenseList();
+            for (Transaction transaction : expenseList) {
+                Log.d(TAG, "expenseList - getAmount: " + transaction.getAmount());
+            }
             List<Transaction> incomeList = mUserProvider.getUser().getIncomeList();
+            for (Transaction transaction : incomeList) {
+                Log.d(TAG, "incomeList - getAmount: " + transaction.getAmount());
+            }
             float allExpenses = calcTransactionList(expenseList, month) * (-1);
             float allIncomes = calcTransactionList(incomeList, month);
             float resultSum = allIncomes + allExpenses;

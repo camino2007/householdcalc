@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.rxdroid.extensecalc.R;
 import com.rxdroid.extensecalc.enums.ErrorType;
+import com.rxdroid.extensecalc.enums.TransactionType;
 import com.rxdroid.extensecalc.internal.di.components.ApiComponent;
 import com.rxdroid.extensecalc.model.Transaction;
 import com.rxdroid.extensecalc.model.UserResult;
@@ -29,7 +30,7 @@ import butterknife.OnClick;
 /**
  * Created by rxdroid on 4/16/16.
  */
-public class HomeFragment extends RxBaseFragment implements HomeView, TransactionDialogFragment.OnTransactionCallback {
+public class HomeFragment extends RxBaseFragment implements HomeView, TransactionFragment.OnTransactionCallback {
 
     @Bind(R.id.tv_date) TextView mDateTv;
     @Bind(R.id.tv_monthly_incomes) TextView mIncomesTv;
@@ -100,18 +101,18 @@ public class HomeFragment extends RxBaseFragment implements HomeView, Transactio
 
     @OnClick(R.id.fab_add_expense)
     public void onFabExpenseClicked() {
-        showTransactionDialog(true);
+        showTransactionDialog(TransactionType.EXPENSE);
     }
 
     @OnClick(R.id.fab_add_income)
     public void onFabIncomeClicked() {
-        showTransactionDialog(false);
+        showTransactionDialog(TransactionType.INCOME);
     }
 
-    private void showTransactionDialog(boolean isExpense) {
-        TransactionDialogFragment expenseFragment = TransactionDialogFragment.initialize(isExpense);
+    private void showTransactionDialog(TransactionType transactionType) {
+        TransactionFragment expenseFragment = TransactionFragment.initialize(transactionType);
         expenseFragment.setExpenseCallback(this);
-        expenseFragment.show(getChildFragmentManager(), TransactionDialogFragment.class.getSimpleName());
+        expenseFragment.show(getChildFragmentManager(), TransactionFragment.class.getSimpleName());
     }
 
     @Override

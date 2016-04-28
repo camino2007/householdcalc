@@ -1,5 +1,7 @@
 package com.rxdroid.extensecalc.view.presenter;
 
+import android.util.Log;
+
 import com.rxdroid.data.RealmLoader;
 import com.rxdroid.data.realmmodels.RealmTransaction;
 import com.rxdroid.extensecalc.internal.di.PerActivity;
@@ -19,6 +21,8 @@ import javax.inject.Inject;
  */
 @PerActivity
 public class HomePresenter implements ViewPresenter {
+
+    private static final String TAG = "HomePresenter";
 
     private HomeView mHomeView;
 
@@ -50,18 +54,20 @@ public class HomePresenter implements ViewPresenter {
     }
 
     public void addExpense(Transaction expense) {
+        Log.d(TAG, "addExpense: " + expense.getAmount());
+        mUserProvider.addExpense(expense);
         RealmTransaction realmTransaction = Transaction.convertToRealm(expense);
         AtomicLong primaryKeyValue = new AtomicLong(mRealmLoader.getNextTransactionKey());
         realmTransaction.setId(primaryKeyValue.get() + 1);
-        mUserProvider.addExpense(expense);
         mRealmLoader.addExpense(realmTransaction, mUserProvider.getUser().getId());
     }
 
     public void addIncome(Transaction income) {
+        Log.d(TAG, "addIncome: " + income.getAmount());
+        mUserProvider.addIncome(income);
         RealmTransaction realmTransaction = Transaction.convertToRealm(income);
         AtomicLong primaryKeyValue = new AtomicLong(mRealmLoader.getNextTransactionKey());
         realmTransaction.setId(primaryKeyValue.get() + 1);
-        mUserProvider.addIncome(income);
         mRealmLoader.addIncome(realmTransaction, mUserProvider.getUser().getId());
     }
 
@@ -70,6 +76,8 @@ public class HomePresenter implements ViewPresenter {
         UserResult userResult = mTransactionProvider.calcUserDataForMonth(queryForMonth);
         if (userResult != null) {
             mHomeView.onUserDataDone(userResult);
+        } else {
+            Log.d(TAG, "loadUserData == NULL!");
         }
         hideLoading();
     }

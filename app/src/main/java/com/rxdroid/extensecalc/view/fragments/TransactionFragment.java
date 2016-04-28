@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.rxdroid.data.enums.IssueType;
 import com.rxdroid.data.enums.PaymentRate;
 import com.rxdroid.domain.subscriber.DefaultSubscriber;
 import com.rxdroid.extensecalc.R;
+import com.rxdroid.extensecalc.enums.TransactionType;
 import com.rxdroid.extensecalc.enums.ValidType;
 import com.rxdroid.extensecalc.model.Transaction;
 
@@ -35,9 +37,9 @@ import static android.text.TextUtils.isEmpty;
 /**
  * Created by rxdroid on 4/16/16.
  */
-public class TransactionDialogFragment extends DialogFragment {
+public class TransactionFragment extends DialogFragment {
 
-    private static final String TAG = "TransactionDialogFragment";
+    private static final String TAG = "TransactionFragment";
     private static final String KEY_IS_EXPENSE = "keyIsExpense";
 
     @Bind(R.id.spinner_money_type) Spinner mMoneySpinner;
@@ -51,10 +53,10 @@ public class TransactionDialogFragment extends DialogFragment {
 
     private ValidType mAmountValid = ValidType.IN_VALID;
 
-    public static TransactionDialogFragment initialize(boolean isExpense) {
+    public static TransactionFragment initialize(TransactionType transactionType) {
         Bundle bundle = new Bundle();
-        bundle.putBoolean(KEY_IS_EXPENSE, isExpense);
-        TransactionDialogFragment expenseFragment = new TransactionDialogFragment();
+        bundle.putSerializable(KEY_IS_EXPENSE, transactionType);
+        TransactionFragment expenseFragment = new TransactionFragment();
         expenseFragment.setArguments(bundle);
         return expenseFragment;
     }
@@ -109,8 +111,8 @@ public class TransactionDialogFragment extends DialogFragment {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         mCompositeSubscription.clear();
+        super.onDestroy();
     }
 
     @OnClick(R.id.btn_submit)
@@ -125,8 +127,23 @@ public class TransactionDialogFragment extends DialogFragment {
                 .issueType(issueType)
                 .transactionDate(Calendar.getInstance())
                 .build();
-        mExpenseCallback.onExpenseCreated(expense);
+
+        TransactionType transactionType = getTransactionTypeFromArgs();
+        Log.d(TAG, "onSubmitClicked - transactionType: " + transactionType);
+        if (transactionType == TransactionType.EXPENSE) {
+            mExpenseCallback.onExpenseCreated(expense);
+        } else {
+            mExpenseCallback.onIncomeCreated(expense);
+        }
         dismiss();
+    }
+
+    private TransactionType getTransactionTypeFromArgs() {
+        if (getArguments() != null
+                && getArguments().containsKey(KEY_IS_EXPENSE)) {
+            return (TransactionType) getArguments().getSerializable(KEY_IS_EXPENSE);
+        }
+        return null;
     }
 
     private void enableSubmitButton() {
