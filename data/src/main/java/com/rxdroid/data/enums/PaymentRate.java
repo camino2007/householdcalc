@@ -1,7 +1,10 @@
 package com.rxdroid.data.enums;
 
+import android.content.Context;
+
 import com.rxdroid.data.R;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,6 +33,14 @@ public enum PaymentRate {
 
     public static List<PaymentRate> getPaymentRates() {
         return Arrays.asList(PaymentRate.class.getEnumConstants());
+    }
+
+    public static List<String> getPaymentRateStrings(Context context) {
+        List<String> strings = new ArrayList<>();
+        for (PaymentRate paymentRate : getPaymentRates()) {
+            strings.add(context.getString(paymentRate.getStringResId()));
+        }
+        return strings;
     }
 
 }

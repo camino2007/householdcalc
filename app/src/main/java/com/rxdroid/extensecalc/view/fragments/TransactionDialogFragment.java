@@ -74,8 +74,8 @@ public class TransactionDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_expense, container, false);
         ButterKnife.bind(this, view);
-        mMoneySpinner.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, IssueType.values()));
-        mPaymentSpinner.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, PaymentRate.values()));
+        mMoneySpinner.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, IssueType.getIssueTypeStrings(getContext())));
+        mPaymentSpinner.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, PaymentRate.getPaymentRateStrings(getContext())));
         validateAmount();
         return view;
     }
@@ -162,6 +162,7 @@ public class TransactionDialogFragment extends DialogFragment {
 
     public interface OnTransactionCallback {
         void onExpenseCreated(Transaction expense);
+
         void onIncomeCreated(Transaction expense);
     }
 }

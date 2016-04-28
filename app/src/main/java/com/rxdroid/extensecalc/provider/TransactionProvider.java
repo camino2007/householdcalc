@@ -21,22 +21,24 @@ public final class TransactionProvider {
     }
 
     public UserResult calcUserDataForMonth(int month) {
-        if(mUserProvider.getUser()!=null){
-        List<Transaction> expenseList = mUserProvider.getUser().getExpenseList();
-        List<Transaction> incomeList = mUserProvider.getUser().getIncomeList();
-        float allExpenses = calcTransactionList(expenseList, month);
-        float allIncomes = calcTransactionList(incomeList, month);
-        float resultSum = allIncomes - allExpenses;
-        return new UserResult.Builder()
-                .allExpenses(allExpenses)
-                .allIncomes(allIncomes)
-                .resultSum(resultSum)
-                .build();}return null;
+        if (mUserProvider.getUser() != null) {
+            List<Transaction> expenseList = mUserProvider.getUser().getExpenseList();
+            List<Transaction> incomeList = mUserProvider.getUser().getIncomeList();
+            float allExpenses = calcTransactionList(expenseList, month) * (-1);
+            float allIncomes = calcTransactionList(incomeList, month);
+            float resultSum = allIncomes + allExpenses;
+            return new UserResult.Builder()
+                    .allExpenses(allExpenses)
+                    .allIncomes(allIncomes)
+                    .resultSum(resultSum)
+                    .build();
+        }
+        return null;
     }
 
-    private float calcTransactionList(List<Transaction> expenseList, int month) {
+    private float calcTransactionList(List<Transaction> transactionList, int month) {
         float result = 0f;
-        for (Transaction transaction : expenseList) {
+        for (Transaction transaction : transactionList) {
             if (transaction.getDate().get(Calendar.MONTH) == month) {
                 result = result + transaction.getAmount();
             }

@@ -1,7 +1,10 @@
 package com.rxdroid.data.enums;
 
+import android.content.Context;
+
 import com.rxdroid.data.R;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,7 +24,7 @@ public enum IssueType {
     DRINKING(R.string.mt_alcohol),
     ENERGY(R.string.mt_energy),
     MEDICINE(R.string.mt_medicine),
-    TABACAO(R.string.mt_tobacco);
+    TOBACCO(R.string.mt_tobacco);
 
     private int mStringResId;
 
@@ -35,5 +38,13 @@ public enum IssueType {
 
     public static List<IssueType> getTypes() {
         return Arrays.asList(IssueType.class.getEnumConstants());
+    }
+
+    public static List<String> getIssueTypeStrings(Context context) {
+        List<String> strings = new ArrayList<>();
+        for (IssueType issueType : getTypes()) {
+            strings.add(context.getString(issueType.getStringResId()));
+        }
+        return strings;
     }
 }

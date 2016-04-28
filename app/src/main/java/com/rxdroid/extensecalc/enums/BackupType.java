@@ -1,7 +1,10 @@
 package com.rxdroid.extensecalc.enums;
 
+import android.content.Context;
+
 import com.rxdroid.extensecalc.R;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,5 +30,13 @@ public enum BackupType {
 
     public static List<BackupType> getBackupTypes() {
         return Arrays.asList(BackupType.class.getEnumConstants());
+    }
+
+    public static List<String> getBackupTypeStrings(Context context) {
+        List<String> strings = new ArrayList<>();
+        for (BackupType backupType : getBackupTypes()) {
+            strings.add(context.getString(backupType.getStringResId()));
+        }
+        return strings;
     }
 }

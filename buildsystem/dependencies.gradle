@@ -12,7 +12,7 @@ ext {
     androidCompileSdkVersion = 23
 
     //Libraries
-    daggerVersion = '2.0.2'
+    daggerVersion = '2.2'
     rxJavaVersion = '1.0.14'
     rxAndroidVersion = '1.0.1'
     javaxAnnotationVersion = '1.0'
