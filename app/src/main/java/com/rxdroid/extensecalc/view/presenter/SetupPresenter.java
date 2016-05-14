@@ -43,6 +43,6 @@ public class SetupPresenter implements ViewPresenter {
     }
 
     public void persistUser(User user) {
-        mUserProvider.persistUser(user);
+        mUserProvider.initializePersistUser(user);
     }
 }

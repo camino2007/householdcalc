@@ -53,7 +53,7 @@ public class HomeFragment extends RxBaseFragment implements HomeView, Transactio
     }
 
     private void updateUserData() {
-        mHomePresenter.loadUserData(Calendar.getInstance().get(Calendar.MONTH));
+        mHomePresenter.loadTransactionsData(Calendar.getInstance().get(Calendar.MONTH));
     }
 
     @Override
@@ -116,15 +116,8 @@ public class HomeFragment extends RxBaseFragment implements HomeView, Transactio
     }
 
     @Override
-    public void onExpenseCreated(Transaction expense) {
-        mHomePresenter.addExpense(expense);
-        updateUserData();
-    }
-
-    @Override
-    public void onIncomeCreated(Transaction income) {
-        mHomePresenter.addIncome(income);
-        updateUserData();
+    public void onTransactionCreated(Transaction transaction) {
+        mHomePresenter.addTransaction(transaction);
     }
 
     @Override

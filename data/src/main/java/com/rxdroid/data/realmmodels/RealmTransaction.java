@@ -12,7 +12,7 @@ public class RealmTransaction extends RealmObject {
     @Index
     @PrimaryKey
     private long id;
-
+    private long mUserId;
     private int year;
     private int month;
     private int day;
@@ -24,6 +24,7 @@ public class RealmTransaction extends RealmObject {
     private String issue;
     private String paymentRate;
     private String description;
+    private String transactionType;
 
     public long getId() {
         return id;
@@ -31,6 +32,14 @@ public class RealmTransaction extends RealmObject {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getUserId() {
+        return mUserId;
+    }
+
+    public void setUserId(long userId) {
+        mUserId = userId;
     }
 
     public int getYear() {
@@ -65,22 +74,6 @@ public class RealmTransaction extends RealmObject {
         this.amount = amount;
     }
 
-    public String getPaymentRate() {
-        return paymentRate;
-    }
-
-    public void setPaymentRate(String paymentRate) {
-        this.paymentRate = paymentRate;
-    }
-
-    public String getIssue() {
-        return issue;
-    }
-
-    public void setIssue(String issue) {
-        this.issue = issue;
-    }
-
     public boolean isScheduled() {
         return isScheduled;
     }
@@ -113,11 +106,35 @@ public class RealmTransaction extends RealmObject {
         this.dayScheduled = dayScheduled;
     }
 
+    public String getIssue() {
+        return issue;
+    }
+
+    public void setIssue(String issue) {
+        this.issue = issue;
+    }
+
+    public String getPaymentRate() {
+        return paymentRate;
+    }
+
+    public void setPaymentRate(String paymentRate) {
+        this.paymentRate = paymentRate;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 }

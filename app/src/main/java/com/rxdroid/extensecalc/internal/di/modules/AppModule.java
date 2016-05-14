@@ -6,7 +6,7 @@ import com.github.simonpercic.oklog3.OkLogInterceptor;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.rxdroid.data.RealmLoader;
+import com.rxdroid.extensecalc.provider.RealmLoader;
 import com.rxdroid.domain.util.NetworkUtil;
 import com.rxdroid.extensecalc.BaseApplication;
 import com.rxdroid.extensecalc.BuildConfig;

@@ -3,6 +3,7 @@ package com.rxdroid.extensecalc.model;
 import com.rxdroid.data.enums.IssueType;
 import com.rxdroid.data.enums.PaymentRate;
 import com.rxdroid.data.realmmodels.RealmTransaction;
+import com.rxdroid.extensecalc.enums.TransactionType;
 
 import java.util.Calendar;
 import java.util.List;
@@ -16,22 +17,30 @@ import io.realm.RealmList;
  */
 public class Transaction {
 
+    private long mUserId;
     private float mAmount;
     private PaymentRate mPaymentRate;
     private IssueType mIssueType;
     private String mDescription;
     private boolean mIsScheduled;
+    private TransactionType mTransactionType;
     private Calendar mDate;
     private Calendar mScheduledDate;
 
     public Transaction(Builder builder) {
         mAmount = builder.amount;
+        mUserId = builder.userId;
         mPaymentRate = builder.paymentRate;
         mIsScheduled = builder.isScheduled;
         mIssueType = builder.issueType;
         mDate = builder.date;
         mDescription = builder.description;
         mScheduledDate = builder.scheduledDate;
+        mTransactionType = builder.transactionType;
+    }
+
+    public long getUserId() {
+        return mUserId;
     }
 
     public float getAmount() {
@@ -62,6 +71,10 @@ public class Transaction {
         return mScheduledDate;
     }
 
+    public TransactionType getTransactionType() {
+        return mTransactionType;
+    }
+
     public static RealmList<RealmTransaction> convertTransactionsToRealmList(List<Transaction> expenseList) {
         RealmList<RealmTransaction> realmTransactions = new RealmList<>();
         RealmTransaction realmTransaction;
@@ -74,10 +87,12 @@ public class Transaction {
 
     public static RealmTransaction convertToRealm(Transaction transaction) {
         RealmTransaction realmTransaction = new RealmTransaction();
+        realmTransaction.setUserId(transaction.getUserId());
         realmTransaction.setAmount(transaction.getAmount());
         realmTransaction.setPaymentRate(transaction.getPaymentRate().toString());
         realmTransaction.setDescription(transaction.getDescription());
         realmTransaction.setIssue(transaction.getIssueType().toString());
+        realmTransaction.setTransactionType(transaction.getTransactionType().toString());
         realmTransaction.setScheduled(transaction.isScheduled());
         int year = transaction.getDate().get(Calendar.YEAR);
         int month = transaction.getDate().get(Calendar.MONTH);
@@ -99,18 +114,22 @@ public class Transaction {
     public static Transaction convertFromRealm(RealmTransaction rt) {
         PaymentRate paymentRate = getPaymentRateFromRealm(rt.getPaymentRate());
         IssueType issueType = getIssueTypeFromRealm(rt.getIssue());
+        TransactionType transactionType = getTransactionTypeFromRealm(rt.getTransactionType());
         Calendar date = getDateFromRealm(rt.getYear(), rt.getMonth(), rt.getDay());
         Calendar scheduledDate = getDateFromRealm(rt.getYearScheduled(), rt.getMonthScheduled(), rt.getDayScheduled());
         return new Builder()
                 .amount(rt.getAmount())
+                .userId(rt.getUserId())
                 .isScheduled(rt.isScheduled())
                 .description(rt.getDescription())
                 .paymentRate(paymentRate)
                 .issueType(issueType)
+                .transactionType(transactionType)
                 .transactionDate(date)
                 .scheduledDate(scheduledDate)
                 .build();
     }
+
 
     private static Calendar getDateFromRealm(int year, int month, int day) {
         Calendar calendar = Calendar.getInstance();
@@ -129,6 +148,17 @@ public class Transaction {
         return issueType;
     }
 
+    private static TransactionType getTransactionTypeFromRealm(String transactionTypeAsString) {
+        TransactionType transactionType = null;
+        for (TransactionType type : TransactionType.getTypes()) {
+            if (type.toString().equals(transactionTypeAsString)) {
+                transactionType = type;
+                break;
+            }
+        }
+        return transactionType;
+    }
+
     private static PaymentRate getPaymentRateFromRealm(String paymentRateAsString) {
         PaymentRate paymentRate = null;
         for (PaymentRate rate : PaymentRate.getPaymentRates()) {
@@ -142,8 +172,10 @@ public class Transaction {
 
     public static class Builder {
         private float amount;
+        private long userId;
         private PaymentRate paymentRate;
         private IssueType issueType;
+        private TransactionType transactionType;
         private String description;
         private boolean isScheduled = false;
         private Calendar date;
@@ -160,6 +192,11 @@ public class Transaction {
             return this;
         }
 
+        public Builder userId(long userId) {
+            this.userId = userId;
+            return this;
+        }
+
         public Builder paymentRate(PaymentRate paymentRate) {
             this.paymentRate = paymentRate;
             return this;
@@ -167,6 +204,11 @@ public class Transaction {
 
         public Builder issueType(IssueType issueType) {
             this.issueType = issueType;
+            return this;
+        }
+
+        public Builder transactionType(TransactionType transactionType) {
+            this.transactionType = transactionType;
             return this;
         }
 

@@ -17,10 +17,12 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 import com.rxdroid.data.enums.IssueType;
 import com.rxdroid.data.enums.PaymentRate;
 import com.rxdroid.domain.subscriber.DefaultSubscriber;
+import com.rxdroid.extensecalc.BaseApplication;
 import com.rxdroid.extensecalc.R;
 import com.rxdroid.extensecalc.enums.TransactionType;
 import com.rxdroid.extensecalc.enums.ValidType;
 import com.rxdroid.extensecalc.model.Transaction;
+import com.rxdroid.extensecalc.provider.UserProvider;
 
 import java.util.Calendar;
 
@@ -48,6 +50,8 @@ public class TransactionFragment extends DialogFragment {
     @Bind(R.id.btn_submit) Button mSubmitBtn;
     @Bind(R.id.expense_amount_input_layout) TextInputLayout mTextInputLayout;
 
+    private UserProvider mUserProvider;
+
     private CompositeSubscription mCompositeSubscription;
     private OnTransactionCallback mExpenseCallback;
 
@@ -65,6 +69,7 @@ public class TransactionFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCompositeSubscription = new CompositeSubscription();
+        mUserProvider = ((BaseApplication) getContext().getApplicationContext()).getAppComponent().userProvider();
     }
 
     public void setExpenseCallback(OnTransactionCallback expenseCallback) {
@@ -117,25 +122,25 @@ public class TransactionFragment extends DialogFragment {
 
     @OnClick(R.id.btn_submit)
     public void onSubmitClicked() {
-        int currencyIndex = mMoneySpinner.getSelectedItemPosition();
-        IssueType issueType = IssueType.getTypes().get(currencyIndex);
-        int paymentIndex = mPaymentSpinner.getSelectedItemPosition();
-        PaymentRate paymentRate = PaymentRate.getPaymentRates().get(paymentIndex);
-        Transaction expense = new Transaction.Builder()
-                .amount(Float.valueOf(mAmountTxtField.getText().toString()))
-                .paymentRate(paymentRate)
-                .issueType(issueType)
-                .transactionDate(Calendar.getInstance())
-                .build();
-
         TransactionType transactionType = getTransactionTypeFromArgs();
-        Log.d(TAG, "onSubmitClicked - transactionType: " + transactionType);
-        if (transactionType == TransactionType.EXPENSE) {
-            mExpenseCallback.onExpenseCreated(expense);
-        } else {
-            mExpenseCallback.onIncomeCreated(expense);
+        if (transactionType != null) {
+            int currencyIndex = mMoneySpinner.getSelectedItemPosition();
+            IssueType issueType = IssueType.getTypes().get(currencyIndex);
+            int paymentIndex = mPaymentSpinner.getSelectedItemPosition();
+            PaymentRate paymentRate = PaymentRate.getPaymentRates().get(paymentIndex);
+            Transaction transaction = new Transaction.Builder()
+                    .amount(Float.valueOf(mAmountTxtField.getText().toString()))
+                    .userId(mUserProvider.getUser().getId())
+                    .transactionType(transactionType)
+                    .paymentRate(paymentRate)
+                    .issueType(issueType)
+                    .transactionDate(Calendar.getInstance())
+                    .build();
+
+            Log.d(TAG, "onSubmitClicked - transactionType: " + transactionType);
+            mExpenseCallback.onTransactionCreated(transaction);
+            dismiss();
         }
-        dismiss();
     }
 
     private TransactionType getTransactionTypeFromArgs() {
@@ -178,8 +183,8 @@ public class TransactionFragment extends DialogFragment {
     }
 
     public interface OnTransactionCallback {
-        void onExpenseCreated(Transaction expense);
 
-        void onIncomeCreated(Transaction expense);
+        void onTransactionCreated(Transaction transaction);
+
     }
 }

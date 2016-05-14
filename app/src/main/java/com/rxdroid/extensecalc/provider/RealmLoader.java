@@ -1,4 +1,4 @@
-package com.rxdroid.data;
+package com.rxdroid.extensecalc.provider;
 
 import android.content.Context;
 import android.os.Environment;
@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.rxdroid.data.realmmodels.RealmTransaction;
 import com.rxdroid.data.realmmodels.RealmUser;
+import com.rxdroid.extensecalc.model.Transaction;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,6 +17,14 @@ import javax.inject.Inject;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmObject;
+import io.realm.RealmResults;
+import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.subscriptions.Subscriptions;
 
 /**
  * Created by rxdroid on 4/16/16.
@@ -27,7 +36,11 @@ public final class RealmLoader {
     private String IMPORT_REALM_FILE_NAME = "default.realm"; // Eventually replace this if you're using a custom db name
     private static final String TAG = "RealmLoader";
 
+    private Subscription mSubscription = Subscriptions.empty();
+
     private Realm mRealm;
+    private Observable<Realm> mRealmObservable;
+    private RealmResults<RealmTransaction> mRealmTransactions;
 
     @Inject
     public RealmLoader(Context context) {
@@ -36,7 +49,7 @@ public final class RealmLoader {
                 .schemaVersion(1)
                 .build();
 
-   //TODO add Realm migration
+        //TODO add Realm migration
     /*
      https://github.com/realm/realm-java/blob/master/examples/migrationExample/src/main/java/io/realm/examples/realmmigrationexample/model/Migration.java
      try {
@@ -48,7 +61,24 @@ public final class RealmLoader {
 
         // Get a Realm instance for this thread
         mRealm = Realm.getInstance(realmConfig);
+        mRealmObservable = mRealm.asObservable();
+        mRealmTransactions = mRealm.where(RealmTransaction.class).findAll();
+
     }
+
+    @SuppressWarnings("unchecked")
+    public void execute(Observable observable, Subscriber subscriber) {
+        Log.d(TAG, "execute");
+        mSubscription = observable
+                .subscribe(subscriber);
+    }
+
+    public void unsubscribe() {
+        if (!mSubscription.isUnsubscribed()) {
+            mSubscription.unsubscribe();
+        }
+    }
+
 
     public long getNextUserKey() {
         Number lastPrimaryKey = mRealm.where(RealmUser.class).max("id");
@@ -70,7 +100,7 @@ public final class RealmLoader {
         mRealm.beginTransaction();
         mRealm.copyToRealm(realmUser);
         mRealm.commitTransaction();
-        Log.d(TAG, "persistUser - done!");
+        Log.d(TAG, "initializePersistUser - done!");
     }
 
     public void updateUser(RealmUser realmUser) {
@@ -80,16 +110,45 @@ public final class RealmLoader {
         Log.d(TAG, "updateUser - done!");
     }
 
-    public RealmUser loadUser(long userId) {
-        return mRealm.where(RealmUser.class).equalTo("id", userId).findFirst();
+
+    public Observable<RealmUser> getLoadUserObservable(long userId) {
+        return mRealm.where(RealmUser.class)
+                .equalTo("id", userId)
+                .findFirstAsync()
+                .asObservable();
     }
 
-    public void addExpense(RealmTransaction expense, long userId) {
-        RealmUser realmUser = loadUser(userId);
+
+    public void getAddTransactionObservable(Transaction transaction) {
+        Observable.just(transaction)
+                .map(new Func1<Transaction, RealmTransaction>() {
+                    @Override
+                    public RealmTransaction call(Transaction transaction) {
+                        return Transaction.convertToRealm(transaction);
+                    }
+                })
+                .map(new Func1<RealmTransaction, Object>() {
+                    @Override
+                    public Object call(RealmTransaction realmTransaction) {
+                        mRealm.beginTransaction();
+                        mRealm.copyToRealmOrUpdate(realmTransaction);
+                        mRealm.commitTransaction();
+                        return null;
+                    }
+                });
+
+    }
+
+/*    public boolean addExpense(final RealmTransaction expense) {
+
+
+        boolean isSuccess = false;
+        //RealmUser realmUser = loadUser(userId);
         mRealm.beginTransaction();
-        realmUser.getExpenseList().add(expense);
-        mRealm.copyToRealmOrUpdate(realmUser);
+        //realmUser.getExpenseList().add(expense);
+        mRealm.copyToRealmOrUpdate(expense);
         mRealm.commitTransaction();
+        return true;
     }
 
 
@@ -99,7 +158,7 @@ public final class RealmLoader {
         realmUser.getIncomeList().add(income);
         mRealm.copyToRealmOrUpdate(realmUser);
         mRealm.commitTransaction();
-    }
+    }*/
 
 
     /**
