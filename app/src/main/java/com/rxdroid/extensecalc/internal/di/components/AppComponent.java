@@ -2,6 +2,7 @@ package com.rxdroid.extensecalc.internal.di.components;
 
 import android.content.Context;
 
+import com.rxdroid.data.RealmService;
 import com.rxdroid.extensecalc.internal.di.modules.AppModule;
 import com.rxdroid.extensecalc.provider.TransactionProvider;
 import com.rxdroid.extensecalc.provider.UserProvider;
@@ -22,13 +23,9 @@ public interface AppComponent {
 
     UserProvider userProvider();
 
-    TransactionProvider transactionManager();
+    RealmService realmService();
 
     Context context();
-
-    Retrofit retrofit();
-
-
 
 /*
 

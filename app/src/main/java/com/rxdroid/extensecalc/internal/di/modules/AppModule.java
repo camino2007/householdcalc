@@ -6,7 +6,7 @@ import com.github.simonpercic.oklog3.OkLogInterceptor;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.rxdroid.extensecalc.provider.RealmLoader;
+import com.rxdroid.data.RealmService;
 import com.rxdroid.domain.util.NetworkUtil;
 import com.rxdroid.extensecalc.BaseApplication;
 import com.rxdroid.extensecalc.BuildConfig;
@@ -89,19 +89,13 @@ public class AppModule {
     @Provides
     @Singleton
     NetworkUtil provideNetworkUtil(Context context) {
-        return new NetworkUtil(context);
+        return new NetworkUtil(context.getApplicationContext());
     }
 
     @Provides
     @Singleton
-    RealmLoader provideRealmLoader(Context context) {
-        return new RealmLoader(context);
-    }
-
-    @Provides
-    @Singleton
-    UserProvider provideUserProvider(Context context, RealmLoader realmLoader) {
-        UserProvider userProvider = new UserProvider(context, realmLoader);
+    UserProvider provideUserProvider(Context context) {
+        UserProvider userProvider = new UserProvider(context.getApplicationContext());
         userProvider.loadUser();
         return userProvider;
     }
@@ -112,25 +106,10 @@ public class AppModule {
         return new TransactionProvider(userProvider);
     }
 
-/*
-
-
-
     @Provides
     @Singleton
-    ErrorUtils provideErrorUtils(Retrofit retrofit) {
-        return new ErrorUtils(retrofit);
+    RealmService provideRealmService(Context context) {
+        return new RealmService(context);
     }
 
-    @Provides
-    @Singleton
-    TeamNameCityFilter provideTeamNameCityFilter() {
-        return new TeamNameCityFilter();
-    }*/
-
-/*    @Provides
-    @Singleton
-    ConnectionChangeReceiver provideConnectionChangeReceiver(NetworkUtil networkUtil) {
-        return new ConnectionChangeReceiver(networkUtil);
-    }*/
 }

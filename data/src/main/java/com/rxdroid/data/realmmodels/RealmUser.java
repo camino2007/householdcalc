@@ -21,6 +21,7 @@ public class RealmUser extends RealmObject {
     private String backupType;
     private RealmList<RealmTransaction> incomeList;
     private RealmList<RealmTransaction> expenseList;
+    private RealmList<RealmUser> childUserList;
 
     public long getId() {
         return id;
@@ -68,5 +69,13 @@ public class RealmUser extends RealmObject {
 
     public void setExpenseList(RealmList<RealmTransaction> expenseList) {
         this.expenseList = expenseList;
+    }
+
+    public RealmList<RealmUser> getChildUserList() {
+        return childUserList;
+    }
+
+    public void setChildUserList(RealmList<RealmUser> childUserList) {
+        this.childUserList = childUserList;
     }
 }

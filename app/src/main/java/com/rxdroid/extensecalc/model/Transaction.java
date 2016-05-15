@@ -5,6 +5,7 @@ import com.rxdroid.data.enums.PaymentRate;
 import com.rxdroid.data.realmmodels.RealmTransaction;
 import com.rxdroid.extensecalc.enums.TransactionType;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import io.realm.RealmList;
 
 /**
  * Created by rxdroid on 4/17/16.
- * <p/>
+ * <p>
  * Incomes and Expenses are modeled by this class
  */
 public class Transaction {
@@ -83,6 +84,16 @@ public class Transaction {
             realmTransactions.add(realmTransaction);
         }
         return realmTransactions;
+    }
+
+    public static List<Transaction> convertTransactionsFromToRealmList(RealmList<RealmTransaction> realmTransactions) {
+        List<Transaction> transactionList = new ArrayList<>();
+        Transaction transaction;
+        for (RealmTransaction rt : realmTransactions) {
+            transaction = convertFromRealm(rt);
+            transactionList.add(transaction);
+        }
+        return transactionList;
     }
 
     public static RealmTransaction convertToRealm(Transaction transaction) {
@@ -169,6 +180,7 @@ public class Transaction {
         }
         return paymentRate;
     }
+
 
     public static class Builder {
         private float amount;

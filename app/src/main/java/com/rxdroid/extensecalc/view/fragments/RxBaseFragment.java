@@ -33,6 +33,7 @@ public abstract class RxBaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(getLayoutId(), container, false);
         ButterKnife.bind(this, view);
         return view;
@@ -70,11 +71,12 @@ public abstract class RxBaseFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        mCompositeSubscription.clear();
+        Log.d(getTagText(), "onDestroy");
         if (mViewPresenter != null) {
             mViewPresenter.destroy();
         }
+        mCompositeSubscription.clear();
+        super.onDestroy();
     }
 
     @Override

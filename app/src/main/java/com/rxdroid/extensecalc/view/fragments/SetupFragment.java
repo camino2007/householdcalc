@@ -138,8 +138,7 @@ public class SetupFragment extends RxBaseFragment implements SetupView {
                 .backupType(backupType)
                 .build();
         mSetupPresenter.persistUser(user);
-        Intent mainIntent = MainActivity.getCallingIntent(getContext());
-        startActivity(mainIntent);
+
     }
 
     @Override
@@ -182,6 +181,13 @@ public class SetupFragment extends RxBaseFragment implements SetupView {
             mAddIncomeBtn.setEnabled(false);
             mAddExpenseBtn.setEnabled(false);
         }
+    }
+
+    @Override
+    public void onUserLoaded() {
+        Log.d(getTagText(), "onUserLoaded: ");
+        Intent mainIntent = MainActivity.getCallingIntent(getContext());
+        startActivity(mainIntent);
     }
 
     private class UserNameSubscriber extends DefaultSubscriber<ValidType> {

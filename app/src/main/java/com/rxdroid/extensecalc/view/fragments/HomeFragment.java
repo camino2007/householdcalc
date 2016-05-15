@@ -50,10 +50,17 @@ public class HomeFragment extends RxBaseFragment implements HomeView, Transactio
         mHomePresenter.setHomeView(this);
         updateUserData();
         mDateTv.setText(new Date().toString());
+        mHomePresenter.loadUser(getContext().getApplicationContext());
     }
 
     private void updateUserData() {
         mHomePresenter.loadTransactionsData(Calendar.getInstance().get(Calendar.MONTH));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     @Override
@@ -117,7 +124,11 @@ public class HomeFragment extends RxBaseFragment implements HomeView, Transactio
 
     @Override
     public void onTransactionCreated(Transaction transaction) {
-        mHomePresenter.addTransaction(transaction);
+        if(transaction.getTransactionType()==TransactionType.INCOME){
+            mHomePresenter.addIncome(transaction);
+        } else{
+            mHomePresenter.addExpense(transaction);
+        }
     }
 
     @Override

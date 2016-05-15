@@ -1,5 +1,10 @@
 package com.rxdroid.extensecalc.view.presenter;
 
+import android.util.Log;
+
+import com.rxdroid.data.realmmodels.RealmUser;
+import com.rxdroid.data.repository.impl.OnUserRepoCallback;
+import com.rxdroid.data.repository.impl.UserRepository;
 import com.rxdroid.extensecalc.model.User;
 import com.rxdroid.extensecalc.provider.UserProvider;
 import com.rxdroid.extensecalc.view.SetupView;
@@ -15,7 +20,7 @@ public class SetupPresenter implements ViewPresenter {
     private static final String TAG = "SetupPresenter";
 
     private SetupView mSetupView;
-
+    @Inject UserRepository mUserRepository;
     @Inject UserProvider mUserProvider;
 
     @Inject
@@ -29,12 +34,12 @@ public class SetupPresenter implements ViewPresenter {
 
     @Override
     public void resume() {
-
+        mUserRepository.setCallback(new UserRepoCallback());
     }
 
     @Override
     public void pause() {
-
+        mUserRepository.setCallback(null);
     }
 
     @Override
@@ -43,6 +48,26 @@ public class SetupPresenter implements ViewPresenter {
     }
 
     public void persistUser(User user) {
-        mUserProvider.initializePersistUser(user);
+        mSetupView.showLoading();
+        RealmUser realmUser = User.convertToRealm(user);
+        mUserRepository.addMainUser(realmUser);
+        // mUserProvider.initializePersistUser(user);
+    }
+
+    private class UserRepoCallback implements OnUserRepoCallback {
+
+        @Override
+        public void onMainUserAdded(RealmUser realmUser) {
+            Log.d(TAG, "onMainUserAdded: ");
+            User user = User.convertFromRealm(realmUser);
+            mUserProvider.onUserLoaded(user);
+            mSetupView.hideLoading();
+            mSetupView.onUserLoaded();
+        }
+
+        @Override
+        public void onMainUserLoaded(RealmUser realmUser) {
+            Log.d(TAG, "onMainUserLoaded: ");
+        }
     }
 }

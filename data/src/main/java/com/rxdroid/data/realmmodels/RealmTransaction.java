@@ -12,7 +12,7 @@ public class RealmTransaction extends RealmObject {
     @Index
     @PrimaryKey
     private long id;
-    private long mUserId;
+    private long userId;
     private int year;
     private int month;
     private int day;
@@ -35,11 +35,11 @@ public class RealmTransaction extends RealmObject {
     }
 
     public long getUserId() {
-        return mUserId;
+        return userId;
     }
 
     public void setUserId(long userId) {
-        mUserId = userId;
+        this.userId = userId;
     }
 
     public int getYear() {
