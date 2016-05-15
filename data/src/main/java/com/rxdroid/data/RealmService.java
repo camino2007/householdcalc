@@ -45,7 +45,7 @@ public final class RealmService {
         if (lastPrimaryKey != null) {
             return lastPrimaryKey.longValue() + 1;
         }
-        return 0;
+        return 1;
     }
 
     public long getNextTransactionKey() {
@@ -53,6 +53,6 @@ public final class RealmService {
         if (lastPrimaryKey != null) {
             return lastPrimaryKey.longValue() + 1;
         }
-        return 0;
+        return 100;
     }
 }

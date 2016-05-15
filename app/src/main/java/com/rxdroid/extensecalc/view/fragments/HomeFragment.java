@@ -48,7 +48,6 @@ public class HomeFragment extends RxBaseFragment implements HomeView, Transactio
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mHomePresenter.setHomeView(this);
-        updateUserData();
         mDateTv.setText(new Date().toString());
         mHomePresenter.loadUser(getContext().getApplicationContext());
     }
@@ -60,7 +59,7 @@ public class HomeFragment extends RxBaseFragment implements HomeView, Transactio
     @Override
     public void onResume() {
         super.onResume();
-
+        updateUserData();
     }
 
     @Override
@@ -124,9 +123,9 @@ public class HomeFragment extends RxBaseFragment implements HomeView, Transactio
 
     @Override
     public void onTransactionCreated(Transaction transaction) {
-        if(transaction.getTransactionType()==TransactionType.INCOME){
+        if (transaction.getTransactionType() == TransactionType.INCOME) {
             mHomePresenter.addIncome(transaction);
-        } else{
+        } else {
             mHomePresenter.addExpense(transaction);
         }
     }

@@ -62,7 +62,7 @@ public class UserRepository implements IUserRepository {
                 .where(RealmUser.class)
                 .equalTo(RealmTable.ID, userId)
                 .findFirst();
-        if(mCallback!=null){
+        if (mCallback != null) {
             mCallback.onMainUserLoaded(realmUser);
         }
 
