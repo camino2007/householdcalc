@@ -70,5 +70,10 @@ public class SetupPresenter implements ViewPresenter {
         public void onMainUserLoaded(RealmUser realmUser) {
             Log.d(TAG, "onMainUserLoaded: ");
         }
+
+        @Override
+        public void onRealmError(Exception e) {
+
+        }
     }
 }

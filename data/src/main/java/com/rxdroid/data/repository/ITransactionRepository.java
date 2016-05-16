@@ -22,4 +22,5 @@ public interface ITransactionRepository {
 
     void getTransactionById(long userId);
 
+    void getAllExpensesForMonth(int month, int year);
 }

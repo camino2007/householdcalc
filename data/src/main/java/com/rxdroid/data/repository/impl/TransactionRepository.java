@@ -10,6 +10,8 @@ import com.rxdroid.data.repository.ITransactionRepository;
 
 import javax.inject.Inject;
 
+import io.realm.RealmResults;
+
 /**
  * Created by rxdroid on 5/15/16.
  */
@@ -96,6 +98,16 @@ public class TransactionRepository implements ITransactionRepository {
 
     @Override
     public void getTransactionById(long userId) {
+
+    }
+
+    @Override
+    public void getAllExpensesForMonth(int month, int year) {
+      RealmResults<RealmTransaction> realmResults = mRealmService.getRealm()
+                .where(RealmTransaction.class)
+                .equalTo(RealmTable.Transaction.MONTH, month)
+                .equalTo(RealmTable.Transaction.YEAR, year)
+                .findAll();
 
     }
 }

@@ -5,101 +5,25 @@
              android:layout_height="match_parent"
              android:padding="@dimen/standard_padding">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_date"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="tv_date"/>
+            android:layout_above="@+id/ad_view_container"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"/>
 
         <FrameLayout
-            android:id="@+id/income_layout"
+            android:id="@+id/ad_view_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/double_standard_padding">
+            android:layout_alignParentBottom="true"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/home_income"/>
-
-            <TextView
-                android:id="@+id/tv_monthly_incomes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"/>
-
-        </FrameLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="@dimen/double_standard_padding"
-            android:layout_marginLeft="@dimen/double_standard_padding"
-            android:layout_marginRight="@dimen/double_standard_padding"
-            android:layout_marginStart="@dimen/double_standard_padding"
-            android:background="@color/colorPrimaryDark"/>
-
-        <FrameLayout
-            android:id="@+id/expense_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/double_standard_padding">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/home_expense"/>
-
-            <TextView
-
-                android:id="@+id/tv_monthly_expenses"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"/>
-
-        </FrameLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="@dimen/double_standard_padding"
-            android:layout_marginLeft="@dimen/double_standard_padding"
-            android:layout_marginRight="@dimen/double_standard_padding"
-            android:layout_marginStart="@dimen/double_standard_padding"
-            android:background="@color/colorPrimaryDark"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/double_standard_padding">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/home_tv_absolute_result"
-                android:layout_marginEnd="@dimen/double_standard_padding"
-                android:layout_marginRight="@dimen/double_standard_padding"
-                android:layout_toLeftOf="@+id/home_tv_absolute_result"
-                android:layout_toStartOf="@+id/home_tv_absolute_result"
-                android:text="@string/home_result"/>
-
-            <TextView
-                android:id="@+id/home_tv_absolute_result"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"/>
-
-        </RelativeLayout>
-
-
-    </LinearLayout>
+    </RelativeLayout>
 
 
     <android.support.design.widget.FloatingActionButton

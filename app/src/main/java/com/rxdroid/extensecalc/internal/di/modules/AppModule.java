@@ -94,16 +94,14 @@ public class AppModule {
 
     @Provides
     @Singleton
-    UserProvider provideUserProvider(Context context) {
-        UserProvider userProvider = new UserProvider(context.getApplicationContext());
-        userProvider.loadUser();
-        return userProvider;
+    UserProvider provideUserProvider(Context context, TransactionProvider transactionProvider) {
+        return new UserProvider(context.getApplicationContext(), transactionProvider);
     }
 
     @Provides
     @Singleton
-    TransactionProvider provideTransactionManager(UserProvider userProvider) {
-        return new TransactionProvider(userProvider);
+    TransactionProvider provideTransactionManager() {
+        return new TransactionProvider();
     }
 
     @Provides

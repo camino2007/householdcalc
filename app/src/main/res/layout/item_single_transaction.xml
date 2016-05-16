@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:id="@+id/single_transaction_layout"
+             android:layout_height="80dp">
+
+    <TextView
+        android:id="@+id/tv_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:padding="@dimen/half_standard_padding"
+        android:text="1232.67€"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/tv_payment_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:padding="@dimen/half_standard_padding"
+        android:text="Single"
+        android:textSize="12sp"/>
+
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|top"
+        android:padding="@dimen/half_standard_padding"
+        android:text="23.24.2016"
+        android:textSize="12sp"/>
+
+
+    <TextView
+        android:id="@+id/tv_issue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:maxLines="1"
+        android:minLines="1"
+        android:padding="@dimen/standard_padding"
+        android:text="Grocery"
+        android:textSize="16sp"/>
+
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|bottom"
+        android:maxLines="2"
+        android:minLines="1"
+        android:padding="@dimen/half_standard_padding"
+        android:text="Description"
+        android:textSize="12sp"/>
+
+
+</FrameLayout>

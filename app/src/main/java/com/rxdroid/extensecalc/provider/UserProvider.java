@@ -7,7 +7,10 @@ import android.util.Log;
 import com.rxdroid.data.realmmodels.RealmUser;
 import com.rxdroid.domain.subscriber.DefaultSubscriber;
 import com.rxdroid.extensecalc.model.Transaction;
+import com.rxdroid.extensecalc.model.TransactionDataWrapper;
 import com.rxdroid.extensecalc.model.User;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -18,31 +21,19 @@ public final class UserProvider {
     private static final String PREFERENCES_USER = "com.rxdroid.PREFERENCES_USER";
     private static final String USER_ID = "userId";
 
-
     private User mUser;
     private Context mContext;
+    private final TransactionProvider mTransactionProvider;
 
     @Inject
-    public UserProvider(Context context) {
+    public UserProvider(Context context, TransactionProvider transactionProvider) {
         this.mContext = context;
-    }
-
-    public void loadUser() {
-    /*    SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREFERENCES_USER, Context.MODE_PRIVATE);
-        long userId = sharedPreferences.getLong(USER_ID, 0L);
-        if (userId > 0L) {
-            Log.d(TAG, "loadUser - userId: " + userId);
-            //.getMainUserById(userId);
-         *//*   Observable<RealmUser> realmUserObservable = mRealmLoader.getLoadUserObservable(userId);
-
-            mRealmLoader.execute(realmUserObservable, new UserSubscriber());*//*
-        }*/
+        this.mTransactionProvider = transactionProvider;
     }
 
     public User getUser() {
         return mUser;
     }
-
 
     public void addIncome(Transaction income) {
         mUser.getIncomeList().add(income);
@@ -60,6 +51,13 @@ public final class UserProvider {
                 .edit()
                 .putLong(USER_ID, user.getId())
                 .apply();
+    }
+
+    public List<TransactionDataWrapper> getUserTransactionData(int currentMonth, int currentYear) {
+
+        mTransactionProvider.calcUserDataForMonth(currentMonth, currentYear, mUser);
+
+
     }
 
     private class UserSubscriber extends DefaultSubscriber<RealmUser> {

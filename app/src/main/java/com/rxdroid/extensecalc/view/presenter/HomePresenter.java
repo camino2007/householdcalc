@@ -12,6 +12,7 @@ import com.rxdroid.data.repository.impl.TransactionRepository;
 import com.rxdroid.data.repository.impl.UserRepository;
 import com.rxdroid.extensecalc.internal.di.PerActivity;
 import com.rxdroid.extensecalc.model.Transaction;
+import com.rxdroid.extensecalc.model.TransactionDataWrapper;
 import com.rxdroid.extensecalc.model.User;
 import com.rxdroid.extensecalc.provider.UserProvider;
 import com.rxdroid.extensecalc.view.HomeView;
@@ -47,6 +48,9 @@ public class HomePresenter implements ViewPresenter {
 
     public void setHomeView(HomeView homeView) {
         mHomeView = homeView;
+    }
+
+    public void initCallbacks() {
         mTransactionRepository.setCallback(new OnRealmTransactionCallback());
         mUserRepository.setCallback(new OnRealmUserCallback());
     }
@@ -91,11 +95,13 @@ public class HomePresenter implements ViewPresenter {
     }
 
 
-    public void loadTransactionsData(int queryForCurrentMonth) {
-        // showLoading();
+    public void loadTransactionsData(int currentMonth, int currentYear) {
+        //showLoading();
+       List<TransactionDataWrapper> dataWrappers =  mUserProvider.getUserTransactionData(currentMonth, currentYear);
 
+        mTransactionRepository.getAllExpensesForMonth(currentMonth, currentYear);
 
-/*        UserResult userResult = mTransactionProvider.calcUserDataForMonth(queryForCurrentMonth);
+/*        TransactionDataWrapper userResult = mTransactionProvider.calcUserDataForMonth(queryForCurrentMonth);
         if (userResult != null) {
             mHomeView.onUserDataDone(userResult);
         } else {
@@ -111,13 +117,9 @@ public class HomePresenter implements ViewPresenter {
         if (userId > 0L) {
             Log.d(TAG, "loadUser - userId: " + userId);
             mUserRepository.getMainUserById(userId);
-            //.getMainUserById(userId);
-         /*   Observable<RealmUser> realmUserObservable = mRealmLoader.getLoadUserObservable(userId);
-
-            mRealmLoader.execute(realmUserObservable, new UserSubscriber());*/
         }
-
     }
+
 
     private class OnRealmUserCallback implements OnUserRepoCallback {
 
@@ -131,6 +133,17 @@ public class HomePresenter implements ViewPresenter {
             Log.d(TAG, "onMainUserLoaded");
             User user = User.convertFromRealm(realmUser);
             mUserProvider.onUserLoaded(user);
+            for (Transaction expense : mUserProvider.getUser().getExpenseList()) {
+                Log.d(TAG, "onMainUserLoaded - expense.getAmount(): " + expense.getAmount());
+            }
+            for (Transaction income : mUserProvider.getUser().getIncomeList()) {
+                Log.d(TAG, "onMainUserLoaded - income.getAmount(): " + income.getAmount());
+            }
+        }
+
+        @Override
+        public void onRealmError(Exception e) {
+
         }
     }
 
@@ -162,6 +175,11 @@ public class HomePresenter implements ViewPresenter {
             for (Transaction expense : expenses) {
                 Log.d(TAG, "onAllExpenses - getAmount: " + expense.getAmount());
             }
+        }
+
+        @Override
+        public void onRealmError(Exception e) {
+
         }
     }
 
