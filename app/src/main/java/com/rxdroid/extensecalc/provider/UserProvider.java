@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.rxdroid.data.realmmodels.RealmUser;
 import com.rxdroid.domain.subscriber.DefaultSubscriber;
-import com.rxdroid.extensecalc.enums.TransactionType;
 import com.rxdroid.extensecalc.model.Transaction;
 import com.rxdroid.extensecalc.model.User;
 
@@ -45,8 +44,6 @@ public final class UserProvider {
     }
 
 
-
-
     public void addIncome(Transaction income) {
         mUser.getIncomeList().add(income);
     }
@@ -57,6 +54,7 @@ public final class UserProvider {
 
     public void onUserLoaded(User user) {
         mUser = user;
+        Log.d(TAG, "onUserLoaded - user.getId() : " + user.getId());
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREFERENCES_USER, Context.MODE_PRIVATE);
         sharedPreferences
                 .edit()

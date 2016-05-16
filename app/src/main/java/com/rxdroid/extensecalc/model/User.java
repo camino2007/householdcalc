@@ -23,6 +23,7 @@ public class User {
     private List<Transaction> mExpenseList;
 
     public User(Builder builder) {
+        mId = builder.id;
         mUserName = builder.userName;
         mCurrency = builder.currency;
         mBackupType = builder.backupType;
@@ -54,10 +55,6 @@ public class User {
         return mId;
     }
 
-    public void setId(long id) {
-        mId = id;
-    }
-
     public static RealmUser convertToRealm(User user) {
         RealmUser realmUser = new RealmUser();
         realmUser.setId(user.getId());
@@ -77,6 +74,7 @@ public class User {
         List<Transaction> expenseList = getExpenseListFromDbUser(realmuser.getExpenseList());
         List<Transaction> incomeList = getIncomeListFromDbUser(realmuser.getIncomeList());
         return new Builder()
+                .id(realmuser.getId())
                 .userName(realmuser.getName())
                 .backupType(backupType)
                 .currency(currency)
@@ -136,11 +134,17 @@ public class User {
     }
 
     public static class Builder {
+        private long id;
         private String userName;
         private Currency currency;
         private BackupType backupType;
         private List<Transaction> incomeList = new ArrayList<>();
         private List<Transaction> expenseList = new ArrayList<>();
+
+        public Builder id(long id){
+            this.id = id;
+            return this;
+        }
 
         public Builder userName(String userName) {
             this.userName = userName;

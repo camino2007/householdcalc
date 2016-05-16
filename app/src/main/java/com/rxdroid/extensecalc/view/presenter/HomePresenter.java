@@ -47,23 +47,25 @@ public class HomePresenter implements ViewPresenter {
 
     public void setHomeView(HomeView homeView) {
         mHomeView = homeView;
-    }
-
-    @Override
-    public void resume() {
         mTransactionRepository.setCallback(new OnRealmTransactionCallback());
         mUserRepository.setCallback(new OnRealmUserCallback());
     }
 
     @Override
+    public void resume() {
+
+    }
+
+    @Override
     public void pause() {
-        mTransactionRepository.setCallback(null);
-        mUserRepository.setCallback(null);
+
     }
 
     @Override
     public void destroy() {
         mHomeView = null;
+        mTransactionRepository.setCallback(null);
+        mUserRepository.setCallback(null);
     }
 
     public void addIncome(Transaction income) {
@@ -126,7 +128,7 @@ public class HomePresenter implements ViewPresenter {
 
         @Override
         public void onMainUserLoaded(RealmUser realmUser) {
-            Log.d(TAG, "onMainUserLoaded: ");
+            Log.d(TAG, "onMainUserLoaded");
             User user = User.convertFromRealm(realmUser);
             mUserProvider.onUserLoaded(user);
         }

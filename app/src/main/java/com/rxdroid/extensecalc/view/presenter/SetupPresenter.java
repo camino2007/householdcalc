@@ -30,35 +30,36 @@ public class SetupPresenter implements ViewPresenter {
 
     public void setSetupView(SetupView setupView) {
         mSetupView = setupView;
-    }
-
-    @Override
-    public void resume() {
         mUserRepository.setCallback(new UserRepoCallback());
     }
 
     @Override
+    public void resume() {
+
+    }
+
+    @Override
     public void pause() {
-        mUserRepository.setCallback(null);
+
     }
 
     @Override
     public void destroy() {
         mSetupView = null;
+        mUserRepository.setCallback(null);
     }
 
     public void persistUser(User user) {
         mSetupView.showLoading();
         RealmUser realmUser = User.convertToRealm(user);
         mUserRepository.addMainUser(realmUser);
-        // mUserProvider.initializePersistUser(user);
     }
 
     private class UserRepoCallback implements OnUserRepoCallback {
 
         @Override
         public void onMainUserAdded(RealmUser realmUser) {
-            Log.d(TAG, "onMainUserAdded: ");
+            Log.d(TAG, "onMainUserAdded - realmUser.getId(): " + realmUser.getId());
             User user = User.convertFromRealm(realmUser);
             mUserProvider.onUserLoaded(user);
             mSetupView.hideLoading();
